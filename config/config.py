@@ -30,6 +30,7 @@ class Config(object):
     seed = 0
     #resize
     input_image_size = 512
+    num_classes = 1
 
     train_dataset = CocoDetection(image_root_dir=train_dataset_path,
                                   annotation_root_dir=dataset_annotations_path,
