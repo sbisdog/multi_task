@@ -10,6 +10,7 @@ BASE_DIR = os.path.dirname(
 sys.path.append(BASE_DIR)
 
 from public.path import pretrained_models_path
+from config.config import Config
 
 from public.detection.models.backbone import ResNetBackbone
 from public.detection.models.head import FCOSClsRegCntHead
@@ -144,7 +145,7 @@ class DilatedEncoder(nn.Module):
 
 
 class YOLOF(nn.Module):
-    def __init__(self, resnet_type, config, use_gn=False):
+    def __init__(self, resnet_type, config):
         super(YOLOF, self).__init__()
         self.backbone = ResNetBackbone(resnet_type=resnet_type)
         expand_ratio = {
@@ -163,6 +164,13 @@ class YOLOF(nn.Module):
 
         self.clsregcnt_head = FCOSClsRegCntHead(self.planes,
                                                 self.num_classes,
+                                                num_layers=4,
+                                                prior=config.prior,
+                                                use_gn=config.use_GN_head,
+                                                cnt_on_reg=config.cnt_on_reg)
+        if self.multi_task:
+            self.clsregcnt_head2 = FCOSClsRegCntHead(self.planes,
+                                                1,
                                                 num_layers=4,
                                                 prior=config.prior,
                                                 use_gn=config.use_GN_head,
@@ -193,7 +201,10 @@ class YOLOF(nn.Module):
         for feature, scale in zip(features, self.scales):
             self.fpn_feature_sizes.append([feature.shape[3], feature.shape[2]])
 
-            cls_outs, reg_outs, center_outs = self.clsregcnt_head(feature)
+            if self.multi_task:
+                cls_outs, reg_outs, center_outs = self.clsregcnt_head2(feature)
+            else:
+                cls_outs, reg_outs, center_outs = self.clsregcnt_head(feature)
 
             # [N,num_classes,H,W] -> [N,H,W,num_classes]
             cls_outs = cls_outs.permute(0, 2, 3, 1).contiguous()
@@ -260,21 +271,18 @@ def resnet152_yolof(pretrained=False, **kwargs):
 
 
 if __name__ == '__main__':
-    net = YOLOF(resnet_type="resnet18")
-    print(net.training)
-    net.eval()
-    print(net.training)
+    net = YOLOF(resnet_type="resnet18", config=Config)
     # for item in net.named_modules():
     #     print(item)
-    # image_h, image_w = 512, 512
-    # cls_heads, reg_heads, center_heads, batch_positions = net(
-    #     torch.autograd.Variable(torch.randn(3, 3, image_h, image_w)))
-    # annotations = torch.FloatTensor([[[113, 120, 183, 255, 5],
-    #                                   [13, 45, 175, 210, 2]],
-    #                                  [[11, 18, 223, 225, 1],
-    #                                   [-1, -1, -1, -1, -1]],
-    #                                  [[-1, -1, -1, -1, -1],
-    #                                   [-1, -1, -1, -1, -1]]])
+    image_h, image_w = 512, 512
+    cls_heads, reg_heads, center_heads, batch_positions = net(
+        torch.autograd.Variable(torch.randn(3, 3, image_h, image_w)))
+    annotations = torch.FloatTensor([[[113, 120, 183, 255, 5],
+                                      [13, 45, 175, 210, 2]],
+                                     [[11, 18, 223, 225, 1],
+                                      [-1, -1, -1, -1, -1]],
+                                     [[-1, -1, -1, -1, -1],
+                                      [-1, -1, -1, -1, -1]]])
 
-    # print("1111", cls_heads[0].shape, reg_heads[0].shape,
-    #       center_heads[0].shape, batch_positions[0].shape)
+    print("1111", cls_heads[0].shape, reg_heads[0].shape,
+          center_heads[0].shape, batch_positions[0].shape)
