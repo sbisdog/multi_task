@@ -160,33 +160,46 @@ class UP_layer(nn.Module):
         return out
 
 class ShortCut(nn.Module):
-    def __init__(self, in_channels, out_channels):
+    def __init__(self, in_channels, out_channels, selayer=False):
         super(ShortCut, self).__init__()
-        self.conv1 = nn.Conv2d(in_channels,
-                             out_channels,
-                             kernel_size=1,
-                             stride=1,
-                             padding=0,
-                             bias=False)
-        nn.init.normal_(self.conv1.weight, std=0.001)
+        if selayer:
+            self.conv1 = nn.Sequential(
+                        SEBlock(in_channels),
+                        nn.Conv2d(in_channels,
+                                 out_channels,
+                                 kernel_size=1,
+                                 stride=1,
+                                 padding=0,
+                                 bias=False)
+                )
+        else:
+            self.conv1 = nn.Conv2d(in_channels,
+                                 out_channels,
+                                 kernel_size=1,
+                                 stride=1,
+                                 padding=0,
+                                 bias=False)
+        for m in self.conv1.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.normal_(m.weight, std=0.001)
 
     def forward(self, x):
         return self.conv1(x)
 
 
 class TTFHead(nn.Module):
-    def __init__(self, C5_inplanes, num_classes, out_channels):
+    def __init__(self, C5_inplanes, num_classes, out_channels, selayer):
         super(TTFHead, self).__init__()
         self.up5t4 = UP_layer(C5_inplanes, out_channels[0])
         self.up4t3 = UP_layer(out_channels[0], out_channels[1])
         self.up3t2 = UP_layer(out_channels[1], out_channels[2])
         
         self.shortcut4 = ShortCut(int(C5_inplanes/2),
-                                    out_channels[0])
+                                    out_channels[0], selayer)
         self.shortcut3 = ShortCut(int(C5_inplanes/4),
-                                    out_channels[1])
+                                    out_channels[1], selayer)
         self.shortcut2 = ShortCut(int(C5_inplanes/8),
-                                    out_channels[2])
+                                    out_channels[2], selayer)
         
         
         self.heatmap_head = nn.Sequential(
@@ -248,7 +261,7 @@ class TTFHead(nn.Module):
                 nn.init.constant_(m.bias, 0)
     
     def forward(self, x):
-        C2, C3, C4, C5 = x
+        [C2, C3, C4, C5] = x
         C4_up = self.up5t4(C5) + self.shortcut4(C4)
         C3_up = self.up4t3(C4_up) + self.shortcut3(C3)
         C2_up = self.up3t2(C3_up) + self.shortcut2(C2)
@@ -265,7 +278,7 @@ class TTFHead(nn.Module):
 
 # assert input annotations are[x_min,y_min,x_max,y_max]
 class CenterNet(nn.Module):
-    def __init__(self, resnet_type, num_classes=80, multi_head=False, selayer=False, use_ttf=False, cls_mlp=False):
+    def __init__(self, resnet_type, num_classes=80, multi_head=False, selayer=True, use_ttf=False, cls_mlp=False):
         super(CenterNet, self).__init__()
         self.backbone = ResNetBackbone(resnet_type=resnet_type)
         expand_ratio = {
@@ -293,8 +306,9 @@ class CenterNet(nn.Module):
                                         TTFHead(
                                             C5_inplanes,
                                             num_classes[1],
-                                            out_channels=[256, 128, 64])
-                                        )
+                                            out_channels=[256, 128, 64],
+                                            selayer = selayer
+                                        ))
                 else:
                     self.centernet_head_2 = nn.Sequential(
                                             SEBlock(C5_inplanes),
@@ -311,7 +325,9 @@ class CenterNet(nn.Module):
                     self.centernet_head_2 = TTFHead(
                                                 C5_inplanes,
                                                 num_classes[1],
-                                                out_channels=[256, 128, 64])
+                                                out_channels=[256, 128, 64],
+                                                selayer = selayer
+                                            )
                 else:
                     self.centernet_head_2 = CenterNetHetRegWhHead(
                         C5_inplanes,
