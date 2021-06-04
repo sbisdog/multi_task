@@ -302,7 +302,6 @@ class CenterNet(nn.Module):
             if selayer:
                 if use_ttf:
                     self.centernet_head_2 = nn.Sequential(
-                                        SEBlock(C5_inplanes),
                                         TTFHead(
                                             C5_inplanes,
                                             num_classes[1],
@@ -403,7 +402,7 @@ def resnet152_centernet(pretrained=False, **kwargs):
 
 
 if __name__ == '__main__':
-    net = CenterNet(resnet_type="resnet50", num_classes=[80,1], multi_head=True, selayer=False, use_ttf=True)
+    net = CenterNet(resnet_type="resnet50", num_classes=[80,1], multi_head=True, selayer=True, use_ttf=True)
     image_h, image_w = 512, 512
     heatmap_output, offset_output, wh_output = net(
         torch.autograd.Variable(torch.randn(3, 3, image_h, image_w)))
