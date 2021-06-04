@@ -13,9 +13,9 @@ import torchvision.datasets as datasets
 
 
 class Config(object):
-    version = 9
+    version = 10
     log = './log_ctn_multi_v' + str(version)  # Path to save log
-    checkpoint_path = './checkpoints_multi_' + str(version)  # Path to store checkpoint model
+    checkpoint_path = './checkpoints_multi_v' + str(version)  # Path to store checkpoint model
     resume = checkpoint_path + '/latest.pth'  # load checkpoint model
     evaluate = None  # evaluate model path
     train_dataset_path = os.path.join('/home/jovyan/data-vol-polefs-1/dataset/taibiao', 'images/train2017')
@@ -24,6 +24,9 @@ class Config(object):
 #     train_dataset_path = os.path.join('/home/jovyan/data-vol-polefs-1/dataset/lanmu', 'images/train2017')
 #     val_dataset_path = os.path.join('/home/jovyan/data-vol-polefs-1/dataset/lanmu', 'images/val2017')
 #     dataset_annotations_path = os.path.join('/home/jovyan/data-vol-polefs-1/dataset/lanmu', 'annotations')
+#     train_dataset_path = os.path.join('/home/jovyan/data-vol-polefs-2/datasets_shenhe/scripts/03-08', 'crop_images')
+#     val_dataset_path = os.path.join('/home/jovyan/data-vol-polefs-2/datasets_shenhe/scripts/03-08', 'train2017')
+#     dataset_annotations_path = os.path.join('/home/jovyan/data-vol-polefs-2/datasets_shenhe/scripts/03-08', 'annotations')
 
     network = "resnet50_centernet"
     pretrained = False
@@ -37,15 +40,13 @@ class Config(object):
     load_head = False
     
     #use selayer before head
-    selayer = False
-    #load the params to head2
-    load_head = False
+    selayer = True
     #use ttf head in centernet head
-    use_ttf = False
+    use_ttf = True
 #     pre_model_dir = '/home/jovyan/data-vol-1/zhangze/code/pytorch-ImageNet-CIFAR-COCO-VOC-training/detection_experiments/resnet18_centernet_coco_distributed_apex_resize512/checkpoints/best.pth'
     pre_model_dir = "/home/jovyan/data-vol-1/zhangze/code/multi_task/train/checkpoints_multi_v2/best.pth"
     #head1 head2 classes
-    num_classes = [41, 41]
+    num_classes = [41, 1]
     #*********************************************************************************
     seed = 0
     input_image_size = 512

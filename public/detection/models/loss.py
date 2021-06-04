@@ -730,7 +730,7 @@ class CenterNetLoss(nn.Module):
                  wh_weight=0.1,
                  epsilon=1e-4,
                  min_overlap=0.7,
-                 max_object_num=100):
+                 max_object_num=680):
         super(CenterNetLoss, self).__init__()
         self.alpha = alpha
         self.beta = beta

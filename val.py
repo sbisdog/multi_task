@@ -20,16 +20,17 @@ label_map = ["三字经劲书", "1000步的缤纷台湾", "Hello你好", "产业
 
 
 use_gpu = True
-if_use_json = True
+if_use_json = False
 if_centernet = True
 if_multi = True
 resize = 512
 #score阈值
 threshold = 0.2
+if_racall = False
 
 #输入图片地址
-# im_dir = '/home/jovyan/data-vol-1/zhangze/code/multi_task/test_imgs'
-im_dir = os.path.join('/home/jovyan/data-vol-polefs-1/dataset/taibiao', 'images/val2017')
+im_dir = '/home/jovyan/data-vol-1/zhangze/code/multi_task/test_imgs'
+# im_dir = os.path.join('/home/jovyan/data-vol-polefs-1/dataset/taibiao', 'images/val2017')
 #输出图片地址
 out_dir = './out_imgs_task2/'
 #val json 地址
@@ -53,7 +54,7 @@ if if_use_json:
     im_ids = coco.getImgIds(catIds=1)
     anns_ids = {coco.loadImgs(ids=item)[0]["file_name"]:coco.getAnnIds(imgIds=item)[0] for item in im_ids}
 
-    im_list = [item["file_name"] for item in coco.loadImgs(ids=coco.getImgIds(catIds=1))]
+    im_list = [item["file_name"] for item in coco.loadImgs(ids=im_ids)]
 else:
     im_list = os.listdir(im_dir)
 
@@ -99,43 +100,57 @@ model.load_state_dict(pre_model, strict=False)
 model.eval()
 
 
-def compute_iou(rec1, rec2):
+
+def compute_iou(box1, box2, wh=False):
     """
-    computing IoU
-    :param rec1: (y0, x0, y1, x1), which reflects
-            (top, left, bottom, right)
-    :param rec2: (y0, x0, y1, x1)
-    :return: scala value of IoU
+    compute the iou of two boxes.
+    Args:
+        box1, box2: [xmin, ymin, xmax, ymax] (wh=False) or [xcenter, ycenter, w, h] (wh=True)
+        wh: the format of coordinate.
+    Return:
+        iou: iou of box1 and box2.
     """
-    # computing area of each rectangles
-    S_rec1 = (rec1[2] - rec1[0]) * (rec1[3] - rec1[1])
-    S_rec2 = (rec2[2] - rec2[0]) * (rec2[3] - rec2[1])
-
-    # computing the sum_area
-    sum_area = S_rec1 + S_rec2
-
-    # find the each edge of intersect rectangle
-    left_line = max(rec1[1], rec2[1])
-    right_line = min(rec1[3], rec2[3])
-    top_line = max(rec1[0], rec2[0])
-    bottom_line = min(rec1[2], rec2[2])
-
-    # judge if there is an intersect
-    if left_line >= right_line or top_line >= bottom_line:
-        return 0
+    if wh == False:
+        xmin1, ymin1, xmax1, ymax1 = box1
+        xmin2, ymin2, xmax2, ymax2 = box2
     else:
-        intersect = (right_line - left_line) * (bottom_line - top_line)
-        return (intersect / (sum_area - intersect)) * 1.0
+        xmin1, ymin1 = int(box1[0]-box1[2]/2.0), int(box1[1]-box1[3]/2.0)
+        xmax1, ymax1 = int(box1[0]+box1[2]/2.0), int(box1[1]+box1[3]/2.0)
+        xmin2, ymin2 = int(box2[0]-box2[2]/2.0), int(box2[1]-box2[3]/2.0)
+        xmax2, ymax2 = int(box2[0]+box2[2]/2.0), int(box2[1]+box2[3]/2.0)
+
+    ## 获取矩形框交集对应的左上角和右下角的坐标（intersection）
+    xx1 = np.max([xmin1, xmin2])
+    yy1 = np.max([ymin1, ymin2])
+    xx2 = np.min([xmax1, xmax2])
+    yy2 = np.min([ymax1, ymax2])
+    
+    ## 计算两个矩形框面积
+    area1 = (xmax1-xmin1) * (ymax1-ymin1) 
+    area2 = (xmax2-xmin2) * (ymax2-ymin2)
+    
+    inter_area = (np.max([0, xx2-xx1])) * (np.max([0, yy2-yy1]))  #计算交集面积
+    iou = inter_area/(area1+area2-inter_area+1e-6) #计算交并比
+
+    return iou
 
 
 #创建输出的json dict
 out = {}
 
-count=0
+found_num=0
+ac_bbox = 0
 num_bbox = 0
+num_gt = 0
 with torch.no_grad():
-    for item in tqdm(im_list):
-        bbox_gt = coco.loadAnns(ids=(anns_ids[item]))[0]["bbox"]
+    for item in im_list:
+        if if_racall:
+            bbox_gt = coco.loadAnns(ids=(anns_ids[item]))[0]["bbox"]
+        else:
+            bbox_gt = [0, 0, 0, 0]
+        bbox_gt = [bbox_gt[0], bbox_gt[1], bbox_gt[0]+bbox_gt[2], bbox_gt[1]+bbox_gt[3]]
+        num_gt += 1
+        found_num_add = 0
         
         if item == '.ipynb_checkpoints':
             continue
@@ -168,10 +183,10 @@ with torch.no_grad():
         bboxes = (boxes[0]/resize_factor)
                 
         #读取图片准备画框
-#         font = ImageFont.truetype('han.ttc', 15)
-#         or_im = cv2.imdecode(np.fromfile(current_dir, dtype=np.uint8), -1)
-#         pil_image = Image.fromarray(cv2.cvtColor(or_im, cv2.COLOR_BGR2RGB))
-#         draw = ImageDraw.Draw(pil_image)
+        font = ImageFont.truetype('han.ttc', 15)
+        or_im = cv2.imdecode(np.fromfile(current_dir, dtype=np.uint8), -1)
+        pil_image = Image.fromarray(cv2.cvtColor(or_im, cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(pil_image)
         
         out[item] = []
         for i, score in enumerate(scores):
@@ -183,20 +198,24 @@ with torch.no_grad():
                 dic["scores"] = score
                 dic["class"] = label_map[int(classes[0][0].item())]
                 dic["bbox"] = bbox
-                if compute_iou(bbox_gt, bbox) > 0.5:
-                    count += 1
-                    break
-#                 pos = (int(bbox[0]), int(bbox[3]))
-#                 text = label_map[int(classes[0][0].item())]+" " + str(score)[:4]
-#                 color = (255, 0, 0)
-#                 draw.text(pos,text,font=font,fill=color)
+                if compute_iou(bbox_gt, bbox) > 0.7:
+                    ac_bbox += 1
+                    found_num_add = 1
+                    
+        
+                pos = (int(bbox[0]), int(bbox[3]))
+                text = label_map[int(classes[0][0].item())]+" " + str(score)[:4]
+                color = (255, 0, 0)
+                draw.text(pos,text,font=font,fill=color)
                 
-#                 draw.rectangle([int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])], outline=(255, 255, 0), width=2)
+                draw.rectangle([int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])], outline=(255, 255, 0), width=2)
                 
-#         cv_img = cv2.cvtColor(np.asarray(pil_image),cv2.COLOR_RGB2BGR)
-#         cv2.imwrite(os.path.join(out_dir, item),cv_img)
-print("recall: ", count/len(im_list))
-print("acc : ", count/num_bbox)
+        cv_img = cv2.cvtColor(np.asarray(pil_image),cv2.COLOR_RGB2BGR)
+        cv2.imwrite(os.path.join(out_dir, item),cv_img)
+        found_num += found_num_add
+        print("cur_idx: {:4d}  recall: {:.2f}  acc: {:.2f}".format(num_gt, found_num/num_gt, ac_bbox/num_bbox), end="\r")
+print("recall: ", found_num/num_gt)
+print("acc : ", ac_bbox/num_bbox)
 json.dump(out, open(os.path.join(out_dir, "out.json"), "w"))
 
 
