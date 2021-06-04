@@ -99,14 +99,14 @@ class ResNetBackbone(nn.Module):
         x = self.model.relu(x)
         x = self.model.maxpool(x)
 
-        x = self.model.layer1(x)
-        C3 = self.model.layer2(x)
+        C2 = self.model.layer1(x)
+        C3 = self.model.layer2(C2)
         C4 = self.model.layer3(C3)
         C5 = self.model.layer4(C4)
 
         del x
 
-        return [C3, C4, C5]
+        return [C2, C3, C4, C5]
 
 
 class VovNetBackbone(nn.Module):

@@ -181,13 +181,18 @@ class CenterNetHetRegWhHead(nn.Module):
         layers = []
         for i in range(num_layers):
             layers.append(
-                DCN(in_channels=self.inplanes,
+#                 DCN(in_channels=self.inplanes,
+#                     out_channels=out_channels[i],
+#                     kernel_size=(3, 3),
+#                     stride=1,
+#                     padding=1,
+#                     dilation=1,
+#                     deformable_groups=1))
+                nn.Conv2d(in_channels=self.inplanes,
                     out_channels=out_channels[i],
                     kernel_size=(3, 3),
                     stride=1,
-                    padding=1,
-                    dilation=1,
-                    deformable_groups=1))
+                    padding=1))
             layers.append(nn.BatchNorm2d(out_channels[i]))
             layers.append(nn.ReLU(inplace=True))
             layers.append(

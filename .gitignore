@@ -1,11 +1,17 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*/__pycache__/
 *.py[cod]
 *$py.class
-
+*/checkpoint
+*/log
+*.json
+*.pth
+*.log
+*.jpg
 # C extensions
 *.so
-
+*__main__
+han.ttc
 # Distribution / packaging
 .Python
 build/

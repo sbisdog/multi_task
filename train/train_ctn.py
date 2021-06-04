@@ -7,6 +7,7 @@ import time
 import warnings
 import json
 from collections import OrderedDict
+import copy
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -29,11 +30,11 @@ import torch.distributed as dist
 import torch.backends.cudnn as cudnn
 from torch.utils.data import DataLoader
 from torchvision import transforms
-from configs.config import Config
-from public.detection.dataset.cocodataset import COCODataPrefetcher, Collater
-from public.detection.models.loss import FCOSLoss
-from public.detection.models.decode import FCOSDecoder
-from public.detection.models import yolof2_multiHead as yolof
+from config.config_ctn import Config
+from public.detection.dataset.cocodataset import COCODataPrefetcher, MultiScaleCollater, Collater
+from public.detection.models.loss import CenterNetLoss
+from public.detection.models.decode import CenterNetDecoder
+from public.detection.models import centernet_multi as centernet
 from public.imagenet.utils import get_logger
 from pycocotools.cocoeval import COCOeval
 
@@ -49,19 +50,66 @@ def parse_args():
                         type=float,
                         default=Config.lr,
                         help='learning rate')
+    parser.add_argument('--multi_head',
+                        type=bool,
+                        default=Config.multi_head,
+                        help='use multi_head to train')
+    parser.add_argument('--selayer',
+                        type=bool,
+                        default=Config.selayer,
+                        help='use selayer before head')
+    parser.add_argument('--load_head',
+                        type=bool,
+                        default=Config.load_head,
+                        help='load head1 params to init head2')
+    parser.add_argument('--cls_mlp',
+                        type=bool,
+                        default=Config.cls_mlp,
+                        help='load head1 params to init head2')
+    parser.add_argument('--use_ttf',
+                        type=bool,
+                        default=Config.use_ttf,
+                        help='load head1 params to init head2')
+    parser.add_argument('--pre_model_dir',
+                        type=str,
+                        default=Config.pre_model_dir,
+                        help='use multi_head to train')
     parser.add_argument('--epochs',
                         type=int,
                         default=Config.epochs,
                         help='num of training epochs')
+    parser.add_argument('--milestones',
+                        type=list,
+                        default=Config.milestones,
+                        help='optimizer milestones')
     parser.add_argument('--per_node_batch_size',
                         type=int,
                         default=Config.per_node_batch_size,
                         help='per_node batch size')
-
+    parser.add_argument('--pretrained',
+                        type=bool,
+                        default=Config.pretrained,
+                        help='load pretrained model params or not')
+    parser.add_argument('--num_classes',
+                        type=int,
+                        default=Config.num_classes,
+                        help='model classification num')
     parser.add_argument('--input_image_size',
                         type=int,
                         default=Config.input_image_size,
                         help='input image size')
+    parser.add_argument('--use_multi_scale',
+                        type=bool,
+                        default=Config.use_multi_scale,
+                        help='use multi scale or not')
+    parser.add_argument('--multi_scale_range',
+                        type=list,
+                        default=Config.multi_scale_range,
+                        help='input image size multi scale range')
+    parser.add_argument('--stride',
+                        type=int,
+                        default=Config.stride,
+                        help='model predict downsample stride')
     parser.add_argument('--num_workers',
                         type=int,
                         default=Config.num_workers,
@@ -100,17 +148,11 @@ def parse_args():
                         default=0,
                         help='LOCAL_PROCESS_RANK')
 
-    parser.add_argument('--version',
-                        type=int,
-                        default=Config.version,
-                        help='current version')
-
     return parser.parse_args()
 
 
 def validate(val_dataset, model, decoder, args):
-    if args.apex:
-        model = model.module
+    model = model.module
     # switch to evaluate mode
     model.eval()
     with torch.no_grad():
@@ -140,9 +182,9 @@ def evaluate_coco(val_dataset, model, decoder, args):
         per_batch_indexes = indexes[i * batch_size:(i + 1) * batch_size]
 
         images = images.cuda().float()
-        cls_heads, reg_heads, center_heads, batch_positions = model(images)
-        scores, classes, boxes = decoder(cls_heads, reg_heads, center_heads,
-                                         batch_positions)
+        heatmap_output, offset_output, wh_output = model(images)
+        scores, classes, boxes = decoder(heatmap_output, offset_output,
+                                         wh_output)
 
         scores, classes, boxes = scores.cpu(), classes.cpu(), boxes.cpu()
         scales = scales.unsqueeze(-1).unsqueeze(-1)
@@ -187,13 +229,13 @@ def evaluate_coco(val_dataset, model, decoder, args):
         return
 
     json.dump(results,
-              open('{}_bbox_results.json'.format(val_dataset.set_name), 'w'),
+              open('{}_bbox_results_{}.json'.format(val_dataset.set_name, Config.version), 'w'),
               indent=4)
 
     # load results in COCO evaluation tool
     coco_true = val_dataset.coco
-    coco_pred = coco_true.loadRes('{}_bbox_results.json'.format(
-        val_dataset.set_name))
+    coco_pred = coco_true.loadRes('{}_bbox_results_{}.json'.format(
+        val_dataset.set_name, Config.version))
 
     coco_eval = COCOeval(coco_true, coco_pred, 'bbox')
     coco_eval.params.imgIds = image_ids
@@ -223,7 +265,6 @@ def main():
 
     torch.cuda.set_device(local_rank)
     dist.init_process_group(backend='nccl', init_method='env://')
-
     global gpus_num
     gpus_num = torch.cuda.device_count()
     if local_rank == 0:
@@ -239,7 +280,10 @@ def main():
         logger.info('start loading data')
     train_sampler = torch.utils.data.distributed.DistributedSampler(
         Config.train_dataset, shuffle=True)
-    collater = Collater()
+    collater = MultiScaleCollater(resize=args.input_image_size,
+                                  multi_scale_range=args.multi_scale_range,
+                                  stride=args.stride,
+                                  use_multi_scale=args.use_multi_scale)
     train_loader = DataLoader(Config.train_dataset,
                               batch_size=args.per_node_batch_size,
                               shuffle=False,
@@ -249,64 +293,61 @@ def main():
     if local_rank == 0:
         logger.info('finish loading data')
 
-    model = yolof.__dict__[args.network](**{
-        "pretrained": Config.pretrained,
-        "config": Config
+    model = centernet.__dict__[args.network](**{
+        "pretrained": args.pretrained,
+        "num_classes": args.num_classes,
+        "multi_head": args.multi_head,
+        "selayer": args.selayer,
+        "use_ttf": args.use_ttf,
+        "cls_mlp": args.cls_mlp
     })
-
     
-    if args.version == 1:
-        pre_model = torch.load('/home/jovyan/data-vol-polefs-1/yolof_dc5_res50_coco667_withImPre/best.pth', map_location='cpu')
+    if args.multi_head:
+        pre_model = torch.load(args.pre_model_dir, map_location='cpu')
         if local_rank == 0:
-            logger.info(f"pretrained_model: {'/home/jovyan/data-vol-polefs-1/yolof_dc5_res50_coco667_withImPre/best.pth'}")
-    else:
-        pre_model = torch.load(Config.pre_model_dir, map_location='cpu')
-        if local_rank == 0:
-            logger.info(f"pretrained_model: {Config.pre_model_dir}")
-    
-    # def copyStateDict(state_dict):
-    #     if list(state_dict.keys())[0].startswith('module'):
-    #         start_idx = 1
-    #     else:
-    #         start_idx = 0
-    #     new_state_dict = OrderedDict()
-    #     for k,v in state_dict.items():
-    #         name = '.'.join(k.split('.')[start_idx:])
+            logger.info(f"pretrained_model: {args.pre_model_dir}")
+        
+        if args.load_head:
+            def copyStateDict(state_dict):
+                if list(state_dict.keys())[0].startswith('module'):
+                    start_idx = 1
+                else:
+                    start_idx = 0
+                new_state_dict = OrderedDict()
+                for k,v in state_dict.items():
+                    name = '.'.join(k.split('.')[start_idx:])
 
-    #         new_state_dict[name] = v
-    #     return new_state_dict
-    # new_dict=copyStateDict(pre_model)
-    # keys=[]
-    # for k,v in new_dict.items():
-    #     if k.startswith('clsregcnt_head.cls_out'):    #将‘clsregcnt_head’开头的key过滤掉，这里是要去除的层的key
-    #         continue
-    #     if args.version != 1:
-    #         if k.startswith('clsregcnt_head.reg_out'):
-    #             continue
-    #         if k.startswith('clsregcnt_head.center_out'):
-    #             continue
-    #     keys.append(k)
-    # model.load_state_dict({k:new_dict[k] for k in keys}, strict = False)
-    model.load_state_dict(pre_model, strict=False)
-    
-    if Config.freeze:
-        model.scales.requires_grad = False
+                    new_state_dict[name] = v
+                return new_state_dict
+            new_dict=copyStateDict(pre_model)
+
+            keys=[]
+            keys2 = []
+            for k,v in new_dict.items():
+                keys.append(k)
+#                 if k.startswith('centernet_head.heatmap_head.0'):
+#                     continue
+#                 else:
+#                     keys2.append(k)
+                keys2.append(k)
+            final_dict = {k:new_dict[k] for k in keys}
+            for item in keys2:
+                temp_name = copy.deepcopy(item)
+                final_dict[temp_name.replace('centernet_head', 'centernet_head_2')] = new_dict[item]
+            
+            model.load_state_dict({k:new_dict[k] for k in keys}, strict = False)
+            
+        else:
+            model.load_state_dict(pre_model, strict=False)
         
         for p in model.backbone.parameters():
             p.requires_grad = False
-        for p in model.dila_encoder.parameters():
-                p.requires_grad = False
-        for p in model.trans.parameters():
-                p.requires_grad = False
-        for p in model.c4_out.parameters():
-                p.requires_grad = False
-
-    if Config.multi_task:
-        for p in model.clsregcnt_head.parameters():
+        for p in model.centernet_head.parameters():
             p.requires_grad = False
+            
     
-    for name, param in model.named_parameters():
-        if local_rank == 0:
+    if local_rank == 0:
+        for name, param in model.named_parameters():
             logger.info(f"{name},{param.requires_grad}")
 
     flops_input = torch.randn(1, 3, args.input_image_size,
@@ -317,17 +358,17 @@ def main():
         logger.info(
             f"model: '{args.network}', flops: {flops}, params: {params}")
 
-    criterion = FCOSLoss(strides=Config.strides,
-                 mi=Config.limit_range).cuda()
-    decoder = FCOSDecoder(image_w=args.input_image_size,
-                          image_h=args.input_image_size, strides=Config.strides).cuda()
+    criterion = CenterNetLoss().cuda()
+    decoder = CenterNetDecoder(image_w=args.input_image_size,
+                               image_h=args.input_image_size).cuda()
 
     model = model.cuda()
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,
-                                                           patience=3,
-                                                           verbose=True)
-#     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=4, eta_min=1e-6, last_epoch=-1)
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(
+        optimizer, milestones=args.milestones, gamma=0.1)
+#     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,
+#                                                            patience=3,
+#                                                            verbose=True)
 
     if args.sync_bn:
         model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
@@ -340,10 +381,10 @@ def main():
                                                       delay_allreduce=True)
         if args.sync_bn:
             model = apex.parallel.convert_syncbn_model(model)
-#     else:
-#         model = nn.parallel.DistributedDataParallel(model,
-#                                                     device_ids=[local_rank],
-#                                                     output_device=local_rank)
+    else:
+        model = nn.parallel.DistributedDataParallel(model,
+                                                    device_ids=[local_rank],
+                                                    output_device=local_rank)
 
     if args.evaluate:
         if not os.path.isfile(args.evaluate):
@@ -385,7 +426,7 @@ def main():
         if local_rank == 0:
             logger.info(
                 f"finish resuming model from {args.resume}, epoch {checkpoint['epoch']}, best_map: {checkpoint['best_map']}, "
-                f"loss: {checkpoint['loss']:3f}, cls_loss: {checkpoint['cls_loss']:2f}, reg_loss: {checkpoint['reg_loss']:2f}, center_ness_loss: {checkpoint['center_ness_loss']:2f}"
+                f"loss: {checkpoint['loss']:3f}, heatmap_loss: {checkpoint['heatmap_loss']:2f}, offset_loss: {checkpoint['offset_loss']:2f},wh_loss: {checkpoint['wh_loss']:2f}"
             )
 
     if local_rank == 0:
@@ -396,15 +437,15 @@ def main():
         logger.info('start training')
     for epoch in range(start_epoch, args.epochs + 1):
         train_sampler.set_epoch(epoch)
-        cls_losses, reg_losses, center_ness_losses, losses = train(
+        heatmap_losses, offset_losses, wh_losses, losses = train(
             train_loader, model, criterion, optimizer, scheduler, epoch, args)
 
         if local_rank == 0:
             logger.info(
-                f"train: epoch {epoch:0>3d}, cls_loss: {cls_losses:.2f}, reg_loss: {reg_losses:.2f}, center_ness_loss: {center_ness_losses:.2f}, loss: {losses:.2f}"
+                f"train: epoch {epoch:0>3d}, heatmap_loss: {heatmap_losses:.2f}, offset_loss: {offset_losses:.2f}, wh_loss: {wh_losses:.2f}, loss: {losses:.2f}"
             )
 
-        if epoch % 6 == 0 or epoch % 24 == 0 or epoch == args.epochs:
+        if epoch % 10 == 0 or epoch == args.epochs:
             if local_rank == 0:
                 logger.info(f"start eval.")
                 all_eval_result = validate(Config.val_dataset, model, decoder,
@@ -423,9 +464,9 @@ def main():
                 {
                     'epoch': epoch,
                     'best_map': best_map,
-                    'cls_loss': cls_losses,
-                    'reg_loss': reg_losses,
-                    'center_ness_loss': center_ness_losses,
+                    'heatmap_loss': heatmap_losses,
+                    'offset_loss': offset_losses,
+                    'wh_loss': wh_losses,
                     'loss': losses,
                     'model_state_dict': model.state_dict(),
                     'optimizer_state_dict': optimizer.state_dict(),
@@ -438,11 +479,10 @@ def main():
     if local_rank == 0:
         logger.info(
             f"finish training, total training time: {training_time:.2f} hours")
-    
 
 
 def train(train_loader, model, criterion, optimizer, scheduler, epoch, args):
-    cls_losses, reg_losses, center_ness_losses, losses = [], [], [], []
+    heatmap_losses, offset_losses, wh_losses, losses = [], [], [], []
 
     # switch to train mode
     model.train()
@@ -454,48 +494,42 @@ def train(train_loader, model, criterion, optimizer, scheduler, epoch, args):
 
     while images is not None:
         images, annotations = images.cuda().float(), annotations.cuda()
-        cls_heads, reg_heads, center_heads, batch_positions = model(images)
-        cls_loss, reg_loss, center_ness_loss = criterion(
-            cls_heads, reg_heads, center_heads, batch_positions, annotations)
 
-        loss = cls_loss + reg_loss + center_ness_loss
-        if cls_loss == 0.0 or reg_loss == 0.0:
-            optimizer.zero_grad()
-            print("zero")
-            continue
-#*********************************************************************************************************
+        heatmap_output, offset_output, wh_output = model(images)
+        heatmap_loss, offset_loss, wh_loss = criterion(heatmap_output,
+                                                       offset_output,
+                                                       wh_output, annotations)
+        loss = heatmap_loss + offset_loss + wh_loss
+
         if args.apex:
             with amp.scale_loss(loss, optimizer) as scaled_loss:
                 scaled_loss.backward()
         else:
             loss.backward()
-#         loss.backward()
 
         torch.nn.utils.clip_grad_norm_(model.parameters(), 0.1)
         optimizer.step()
         optimizer.zero_grad()
 
-        cls_losses.append(cls_loss.item())
-        reg_losses.append(reg_loss.item())
-        center_ness_losses.append(center_ness_loss.item())
+        heatmap_losses.append(heatmap_loss.item())
+        offset_losses.append(offset_loss.item())
+        wh_losses.append(wh_loss.item())
         losses.append(loss.item())
-        
 
         images, annotations = prefetcher.next()
 
         if local_rank == 0 and iter_index % args.print_interval == 0:
             logger.info(
-                f"train: epoch {epoch:0>3d}, iter [{iter_index:0>5d}, {iters:0>5d}], cls_loss: {cls_loss.item():.2f}, reg_loss: {reg_loss.item():.2f}, center_ness_loss: {center_ness_loss.item():.2f}, loss_total: {loss.item():.2f}"
+                f"train: epoch {epoch:0>3d}, iter [{iter_index:0>5d}, {iters:0>5d}], heatmap_loss: {heatmap_loss.item():.2f}, offset_loss: {offset_loss.item():.2f}, wh_loss: {wh_loss.item():.2f}, loss_total: {loss.item():.2f}"
             )
 
         iter_index += 1
 
-    scheduler.step(np.mean(losses))
+    scheduler.step()
 
-    return np.mean(cls_losses), np.mean(reg_losses), np.mean(
-        center_ness_losses), np.mean(losses)
+    return np.mean(heatmap_losses), np.mean(offset_losses), np.mean(
+        wh_losses), np.mean(losses)
 
 
 if __name__ == '__main__':
     main()
-   

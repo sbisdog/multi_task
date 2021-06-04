@@ -17,7 +17,7 @@ class Config(object):
     log = './multi_task/log_' + str(version)  # Path to save log
     checkpoint_path = '/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v{}'.format(version)  # Path to store checkpoint model
     resume = '/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v{}/latest.pth'.format(version)  # load checkpoint model
-    pre_model_dir = '/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v{}/best.pth'.format(version-1)
+    pre_model_dir = '/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1/best.pth'.format(version-1)
     evaluate = None  # evaluate model path
     base_path = '/home/jovyan/data-vol-polefs-1/small_sample/dataset'
     train_dataset_path = os.path.join(base_path, 'images/images')
@@ -78,7 +78,7 @@ class Config(object):
     #yolof
     yolof_encoder_channels = 512
     #ttf up
-    num_layers = 2
+    use_ttf = True
     ttf_out_channels = [256, 128]
     
 #***********************************************************#
@@ -94,7 +94,8 @@ class Config(object):
     #down sample strides
     strides=[16]
     #limit in decoder 
-    limit_range=[[-1,99999]]
+#     limit_range=[[-1,99999]]
+    limit_range=[[-1,667]]
     #scales parameter in head
     scales = [1.0]
 

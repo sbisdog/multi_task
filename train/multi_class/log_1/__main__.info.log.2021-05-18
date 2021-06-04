@@ -1,0 +1,752 @@
+2021-05-18 15:29:53,910 - __main__ - INFO - use 2 gpus
+2021-05-18 15:29:53,911 - __main__ - INFO - args: Namespace(apex=True, checkpoints='/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1', epochs=24, evaluate=None, input_image_size=512, local_rank=0, log='./multi_class/log_1', lr=0.0001, network='resnet50_yolof', num_workers=4, per_node_batch_size=4, print_interval=10, resume='/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1/latest.pth', seed=0, sync_bn=False, version=1)
+2021-05-18 15:29:53,911 - __main__ - INFO - start loading data
+2021-05-18 15:29:53,911 - __main__ - INFO - finish loading data
+2021-05-18 15:30:17,113 - __main__ - INFO - pretrained_model: /home/jovyan/data-vol-polefs-1/yolof_dc5_res50_coco667_withImPre/best.pth
+2021-05-18 15:30:44,391 - __main__ - INFO - use 2 gpus
+2021-05-18 15:30:44,391 - __main__ - INFO - args: Namespace(apex=True, checkpoints='/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1', epochs=24, evaluate=None, input_image_size=512, local_rank=0, log='./multi_class/log_1', lr=0.0001, network='resnet50_yolof', num_workers=4, per_node_batch_size=4, print_interval=10, resume='/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1/latest.pth', seed=0, sync_bn=False, version=1)
+2021-05-18 15:30:44,391 - __main__ - INFO - start loading data
+2021-05-18 15:30:44,392 - __main__ - INFO - finish loading data
+2021-05-18 15:31:05,185 - __main__ - INFO - pretrained_model: /home/jovyan/data-vol-polefs-1/yolof_dc5_res50_coco667_withImPre/best.pth
+2021-05-18 15:32:59,742 - __main__ - INFO - use 2 gpus
+2021-05-18 15:32:59,743 - __main__ - INFO - args: Namespace(apex=True, checkpoints='/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1', epochs=24, evaluate=None, input_image_size=512, local_rank=0, log='./multi_class/log_1', lr=0.0001, network='resnet50_yolof', num_workers=4, per_node_batch_size=4, print_interval=10, resume='/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1/latest.pth', seed=0, sync_bn=False, version=1)
+2021-05-18 15:32:59,743 - __main__ - INFO - start loading data
+2021-05-18 15:32:59,743 - __main__ - INFO - finish loading data
+2021-05-18 15:33:17,308 - __main__ - INFO - pretrained_model: /home/jovyan/data-vol-polefs-1/yolof_dc5_res50_coco667_withImPre/best.pth
+2021-05-18 15:33:17,503 - __main__ - INFO - scales,False
+2021-05-18 15:33:17,503 - __main__ - INFO - backbone.model.conv1.weight,False
+2021-05-18 15:33:17,503 - __main__ - INFO - backbone.model.bn1.weight,False
+2021-05-18 15:33:17,503 - __main__ - INFO - backbone.model.bn1.bias,False
+2021-05-18 15:33:17,504 - __main__ - INFO - backbone.model.layer1.0.conv1.weight,False
+2021-05-18 15:33:17,504 - __main__ - INFO - backbone.model.layer1.0.bn1.weight,False
+2021-05-18 15:33:17,504 - __main__ - INFO - backbone.model.layer1.0.bn1.bias,False
+2021-05-18 15:33:17,504 - __main__ - INFO - backbone.model.layer1.0.conv2.weight,False
+2021-05-18 15:33:17,504 - __main__ - INFO - backbone.model.layer1.0.bn2.weight,False
+2021-05-18 15:33:17,505 - __main__ - INFO - backbone.model.layer1.0.bn2.bias,False
+2021-05-18 15:33:17,505 - __main__ - INFO - backbone.model.layer1.0.conv3.weight,False
+2021-05-18 15:33:17,505 - __main__ - INFO - backbone.model.layer1.0.bn3.weight,False
+2021-05-18 15:33:17,505 - __main__ - INFO - backbone.model.layer1.0.bn3.bias,False
+2021-05-18 15:33:17,505 - __main__ - INFO - backbone.model.layer1.0.downsample.0.weight,False
+2021-05-18 15:33:17,506 - __main__ - INFO - backbone.model.layer1.0.downsample.1.weight,False
+2021-05-18 15:33:17,506 - __main__ - INFO - backbone.model.layer1.0.downsample.1.bias,False
+2021-05-18 15:33:17,506 - __main__ - INFO - backbone.model.layer1.1.conv1.weight,False
+2021-05-18 15:33:17,506 - __main__ - INFO - backbone.model.layer1.1.bn1.weight,False
+2021-05-18 15:33:17,506 - __main__ - INFO - backbone.model.layer1.1.bn1.bias,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.1.conv2.weight,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.1.bn2.weight,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.1.bn2.bias,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.1.conv3.weight,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.1.bn3.weight,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.1.bn3.bias,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.2.conv1.weight,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.2.bn1.weight,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.2.bn1.bias,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.2.conv2.weight,False
+2021-05-18 15:33:17,507 - __main__ - INFO - backbone.model.layer1.2.bn2.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer1.2.bn2.bias,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer1.2.conv3.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer1.2.bn3.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer1.2.bn3.bias,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.conv1.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.bn1.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.bn1.bias,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.conv2.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.bn2.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.bn2.bias,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.conv3.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.bn3.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.bn3.bias,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.downsample.0.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.downsample.1.weight,False
+2021-05-18 15:33:17,508 - __main__ - INFO - backbone.model.layer2.0.downsample.1.bias,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.conv1.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.bn1.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.bn1.bias,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.conv2.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.bn2.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.bn2.bias,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.conv3.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.bn3.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.1.bn3.bias,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.2.conv1.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.2.bn1.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.2.bn1.bias,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.2.conv2.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.2.bn2.weight,False
+2021-05-18 15:33:17,509 - __main__ - INFO - backbone.model.layer2.2.bn2.bias,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.2.conv3.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.2.bn3.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.2.bn3.bias,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.conv1.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.bn1.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.bn1.bias,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.conv2.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.bn2.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.bn2.bias,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.conv3.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.bn3.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer2.3.bn3.bias,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer3.0.conv1.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer3.0.bn1.weight,False
+2021-05-18 15:33:17,510 - __main__ - INFO - backbone.model.layer3.0.bn1.bias,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.conv2.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.bn2.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.bn2.bias,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.conv3.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.bn3.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.bn3.bias,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.downsample.0.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.downsample.1.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.0.downsample.1.bias,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.1.conv1.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.1.bn1.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.1.bn1.bias,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.1.conv2.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.1.bn2.weight,False
+2021-05-18 15:33:17,511 - __main__ - INFO - backbone.model.layer3.1.bn2.bias,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.1.conv3.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.1.bn3.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.1.bn3.bias,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.conv1.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.bn1.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.bn1.bias,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.conv2.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.bn2.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.bn2.bias,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.conv3.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.bn3.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.2.bn3.bias,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.3.conv1.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.3.bn1.weight,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.3.bn1.bias,False
+2021-05-18 15:33:17,512 - __main__ - INFO - backbone.model.layer3.3.conv2.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.3.bn2.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.3.bn2.bias,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.3.conv3.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.3.bn3.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.3.bn3.bias,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.conv1.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.bn1.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.bn1.bias,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.conv2.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.bn2.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.bn2.bias,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.conv3.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.bn3.weight,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.4.bn3.bias,False
+2021-05-18 15:33:17,513 - __main__ - INFO - backbone.model.layer3.5.conv1.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer3.5.bn1.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer3.5.bn1.bias,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer3.5.conv2.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer3.5.bn2.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer3.5.bn2.bias,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer3.5.conv3.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer3.5.bn3.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer3.5.bn3.bias,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer4.0.conv1.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer4.0.bn1.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer4.0.bn1.bias,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer4.0.conv2.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer4.0.bn2.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer4.0.bn2.bias,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer4.0.conv3.weight,False
+2021-05-18 15:33:17,514 - __main__ - INFO - backbone.model.layer4.0.bn3.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.0.bn3.bias,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.0.downsample.0.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.0.downsample.1.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.0.downsample.1.bias,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.conv1.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.bn1.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.bn1.bias,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.conv2.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.bn2.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.bn2.bias,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.conv3.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.bn3.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.1.bn3.bias,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.2.conv1.weight,False
+2021-05-18 15:33:17,515 - __main__ - INFO - backbone.model.layer4.2.bn1.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - backbone.model.layer4.2.bn1.bias,False
+2021-05-18 15:33:17,516 - __main__ - INFO - backbone.model.layer4.2.conv2.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - backbone.model.layer4.2.bn2.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - backbone.model.layer4.2.bn2.bias,False
+2021-05-18 15:33:17,516 - __main__ - INFO - backbone.model.layer4.2.conv3.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - backbone.model.layer4.2.bn3.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - backbone.model.layer4.2.bn3.bias,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.lateral_conv.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.lateral_conv.bias,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.lateral_norm.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.lateral_norm.bias,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.fpn_conv.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.fpn_conv.bias,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.fpn_norm.weight,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.fpn_norm.bias,False
+2021-05-18 15:33:17,516 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv1.0.weight,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv1.0.bias,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv1.1.weight,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv1.1.bias,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv2.0.weight,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv2.0.bias,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv2.1.weight,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv2.1.bias,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv3.0.weight,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv3.0.bias,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv3.1.weight,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv3.1.bias,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv1.0.weight,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv1.0.bias,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv1.1.weight,False
+2021-05-18 15:33:17,517 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv1.1.bias,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv2.0.weight,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv2.0.bias,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv2.1.weight,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv2.1.bias,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv3.0.weight,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv3.0.bias,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv3.1.weight,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv3.1.bias,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv1.0.weight,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv1.0.bias,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv1.1.weight,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv1.1.bias,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv2.0.weight,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv2.0.bias,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv2.1.weight,False
+2021-05-18 15:33:17,518 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv2.1.bias,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv3.0.weight,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv3.0.bias,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv3.1.weight,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv3.1.bias,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv1.0.weight,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv1.0.bias,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv1.1.weight,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv1.1.bias,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv2.0.weight,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv2.0.bias,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv2.1.weight,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv2.1.bias,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv3.0.weight,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv3.0.bias,False
+2021-05-18 15:33:17,519 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv3.1.weight,False
+2021-05-18 15:33:17,520 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv3.1.bias,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.cls_head.0.weight,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.cls_head.0.bias,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.cls_head.2.weight,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.cls_head.2.bias,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.cls_head.4.weight,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.cls_head.4.bias,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.cls_head.6.weight,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.cls_head.6.bias,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.reg_head.0.weight,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.reg_head.0.bias,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.reg_head.2.weight,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.reg_head.2.bias,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.reg_head.4.weight,False
+2021-05-18 15:33:17,520 - __main__ - INFO - clsregcnt_head.reg_head.4.bias,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head.reg_head.6.weight,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head.reg_head.6.bias,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head.cls_out.weight,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head.cls_out.bias,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head.reg_out.weight,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head.reg_out.bias,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head.center_out.weight,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head.center_out.bias,False
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head2.cls_head.0.weight,True
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head2.cls_head.0.bias,True
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head2.cls_head.2.weight,True
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head2.cls_head.2.bias,True
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head2.cls_head.4.weight,True
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head2.cls_head.4.bias,True
+2021-05-18 15:33:17,521 - __main__ - INFO - clsregcnt_head2.cls_head.6.weight,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.cls_head.6.bias,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_head.0.weight,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_head.0.bias,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_head.2.weight,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_head.2.bias,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_head.4.weight,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_head.4.bias,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_head.6.weight,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_head.6.bias,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.cls_out.weight,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.cls_out.bias,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_out.weight,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.reg_out.bias,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.center_out.weight,True
+2021-05-18 15:33:17,522 - __main__ - INFO - clsregcnt_head2.center_out.bias,True
+2021-05-18 15:33:17,522 - __main__ - INFO - trans.weight,False
+2021-05-18 15:33:17,523 - __main__ - INFO - c4_out.weight,False
+2021-05-18 15:33:17,523 - __main__ - INFO - c4_out.bias,False
+2021-05-18 15:33:19,702 - __main__ - INFO - model: 'resnet50_yolof', flops: 84.129G, params: 84.699M
+2021-05-18 15:33:23,371 - __main__ - INFO - start training
+2021-05-18 15:33:28,294 - __main__ - INFO - train: epoch 001, iter [00010, 00057], cls_loss: 2.50, reg_loss: 1.00, center_ness_loss: 1.08, loss_total: 4.58
+2021-05-18 15:33:30,495 - __main__ - INFO - train: epoch 001, iter [00020, 00057], cls_loss: 0.47, reg_loss: 1.06, center_ness_loss: 0.73, loss_total: 2.26
+2021-05-18 15:33:35,160 - __main__ - INFO - train: epoch 001, iter [00030, 00057], cls_loss: 0.31, reg_loss: 0.71, center_ness_loss: 0.67, loss_total: 1.69
+2021-05-18 15:33:37,361 - __main__ - INFO - train: epoch 001, iter [00040, 00057], cls_loss: 0.19, reg_loss: 0.69, center_ness_loss: 0.68, loss_total: 1.57
+2021-05-18 15:33:40,361 - __main__ - INFO - train: epoch 001, iter [00050, 00057], cls_loss: 0.20, reg_loss: 0.62, center_ness_loss: 0.67, loss_total: 1.49
+2021-05-18 15:33:43,868 - __main__ - INFO - train: epoch 001, cls_loss: 0.86, reg_loss: 0.74, center_ness_loss: 0.72, loss: 2.32
+2021-05-18 15:33:50,953 - __main__ - INFO - train: epoch 002, iter [00010, 00057], cls_loss: 0.13, reg_loss: 0.49, center_ness_loss: 0.68, loss_total: 1.31
+2021-05-18 15:33:53,074 - __main__ - INFO - train: epoch 002, iter [00020, 00057], cls_loss: 0.16, reg_loss: 0.47, center_ness_loss: 0.67, loss_total: 1.30
+2021-05-18 15:33:55,197 - __main__ - INFO - train: epoch 002, iter [00030, 00057], cls_loss: 0.16, reg_loss: 0.48, center_ness_loss: 0.66, loss_total: 1.31
+2021-05-18 15:33:57,421 - __main__ - INFO - train: epoch 002, iter [00040, 00057], cls_loss: 0.18, reg_loss: 0.34, center_ness_loss: 0.67, loss_total: 1.19
+2021-05-18 15:33:59,563 - __main__ - INFO - train: epoch 002, iter [00050, 00057], cls_loss: 0.12, reg_loss: 0.40, center_ness_loss: 0.67, loss_total: 1.19
+2021-05-18 15:34:01,176 - __main__ - INFO - train: epoch 002, cls_loss: 0.18, reg_loss: 0.43, center_ness_loss: 0.67, loss: 1.27
+2021-05-18 15:34:09,580 - __main__ - INFO - train: epoch 003, iter [00010, 00057], cls_loss: 0.26, reg_loss: 0.38, center_ness_loss: 0.67, loss_total: 1.31
+2021-05-18 15:34:11,848 - __main__ - INFO - train: epoch 003, iter [00020, 00057], cls_loss: 0.12, reg_loss: 0.47, center_ness_loss: 0.68, loss_total: 1.27
+2021-05-18 15:34:14,052 - __main__ - INFO - train: epoch 003, iter [00030, 00057], cls_loss: 0.16, reg_loss: 0.39, center_ness_loss: 0.66, loss_total: 1.21
+2021-05-18 15:34:16,241 - __main__ - INFO - train: epoch 003, iter [00040, 00057], cls_loss: 0.15, reg_loss: 0.35, center_ness_loss: 0.64, loss_total: 1.14
+2021-05-18 15:34:18,612 - __main__ - INFO - train: epoch 003, iter [00050, 00057], cls_loss: 0.23, reg_loss: 0.36, center_ness_loss: 0.66, loss_total: 1.25
+2021-05-18 15:34:20,548 - __main__ - INFO - train: epoch 003, cls_loss: 0.18, reg_loss: 0.38, center_ness_loss: 0.66, loss: 1.23
+2021-05-18 15:34:27,603 - __main__ - INFO - train: epoch 004, iter [00010, 00057], cls_loss: 0.34, reg_loss: 0.32, center_ness_loss: 0.64, loss_total: 1.30
+2021-05-18 15:34:29,831 - __main__ - INFO - train: epoch 004, iter [00020, 00057], cls_loss: 0.18, reg_loss: 0.28, center_ness_loss: 0.66, loss_total: 1.12
+2021-05-18 15:34:32,047 - __main__ - INFO - train: epoch 004, iter [00030, 00057], cls_loss: 0.19, reg_loss: 0.36, center_ness_loss: 0.65, loss_total: 1.19
+2021-05-18 15:34:34,229 - __main__ - INFO - train: epoch 004, iter [00040, 00057], cls_loss: 0.14, reg_loss: 0.40, center_ness_loss: 0.67, loss_total: 1.21
+2021-05-18 15:34:37,030 - __main__ - INFO - train: epoch 004, iter [00050, 00057], cls_loss: 0.12, reg_loss: 0.52, center_ness_loss: 0.69, loss_total: 1.33
+2021-05-18 15:34:38,677 - __main__ - INFO - train: epoch 004, cls_loss: 0.18, reg_loss: 0.39, center_ness_loss: 0.66, loss: 1.22
+2021-05-18 15:34:45,694 - __main__ - INFO - train: epoch 005, iter [00010, 00057], cls_loss: 0.12, reg_loss: 0.25, center_ness_loss: 0.63, loss_total: 1.00
+2021-05-18 15:34:47,787 - __main__ - INFO - train: epoch 005, iter [00020, 00057], cls_loss: 0.21, reg_loss: 0.34, center_ness_loss: 0.66, loss_total: 1.21
+2021-05-18 15:34:49,885 - __main__ - INFO - train: epoch 005, iter [00030, 00057], cls_loss: 0.26, reg_loss: 0.37, center_ness_loss: 0.67, loss_total: 1.30
+2021-05-18 15:34:51,994 - __main__ - INFO - train: epoch 005, iter [00040, 00057], cls_loss: 0.10, reg_loss: 0.30, center_ness_loss: 0.66, loss_total: 1.06
+2021-05-18 15:34:54,168 - __main__ - INFO - train: epoch 005, iter [00050, 00057], cls_loss: 0.11, reg_loss: 0.29, center_ness_loss: 0.65, loss_total: 1.05
+2021-05-18 15:34:55,791 - __main__ - INFO - train: epoch 005, cls_loss: 0.16, reg_loss: 0.34, center_ness_loss: 0.65, loss: 1.15
+2021-05-18 15:35:02,724 - __main__ - INFO - train: epoch 006, iter [00010, 00057], cls_loss: 0.19, reg_loss: 0.32, center_ness_loss: 0.66, loss_total: 1.16
+2021-05-18 15:35:04,839 - __main__ - INFO - train: epoch 006, iter [00020, 00057], cls_loss: 0.14, reg_loss: 0.37, center_ness_loss: 0.66, loss_total: 1.17
+2021-05-18 15:35:06,974 - __main__ - INFO - train: epoch 006, iter [00030, 00057], cls_loss: 0.13, reg_loss: 0.34, center_ness_loss: 0.65, loss_total: 1.12
+2021-05-18 15:35:09,137 - __main__ - INFO - train: epoch 006, iter [00040, 00057], cls_loss: 0.15, reg_loss: 0.29, center_ness_loss: 0.65, loss_total: 1.09
+2021-05-18 15:35:11,265 - __main__ - INFO - train: epoch 006, iter [00050, 00057], cls_loss: 0.11, reg_loss: 0.27, center_ness_loss: 0.64, loss_total: 1.01
+2021-05-18 15:35:13,002 - __main__ - INFO - train: epoch 006, cls_loss: 0.15, reg_loss: 0.33, center_ness_loss: 0.65, loss: 1.13
+2021-05-18 15:35:13,002 - __main__ - INFO - start eval.
+2021-05-18 15:35:45,833 - __main__ - INFO - eval done.
+2021-05-18 15:35:45,833 - __main__ - INFO - val: epoch: 00006, IoU=0.5:0.95,area=all,maxDets=100,mAP:0.155, IoU=0.5,area=all,maxDets=100,mAP:0.482, IoU=0.75,area=all,maxDets=100,mAP:0.047, IoU=0.5:0.95,area=small,maxDets=100,mAP:0.059, IoU=0.5:0.95,area=medium,maxDets=100,mAP:0.294, IoU=0.5:0.95,area=large,maxDets=100,mAP:0.281, IoU=0.5:0.95,area=all,maxDets=1,mAR:0.053, IoU=0.5:0.95,area=all,maxDets=10,mAR:0.208, IoU=0.5:0.95,area=all,maxDets=100,mAR:0.297, IoU=0.5:0.95,area=small,maxDets=100,mAR:0.231, IoU=0.5:0.95,area=medium,maxDets=100,mAR:0.411, IoU=0.5:0.95,area=large,maxDets=100,mAR:0.300
+2021-05-18 15:35:55,900 - __main__ - INFO - train: epoch 007, iter [00010, 00057], cls_loss: 0.13, reg_loss: 0.36, center_ness_loss: 0.64, loss_total: 1.13
+2021-05-18 15:35:58,335 - __main__ - INFO - train: epoch 007, iter [00020, 00057], cls_loss: 0.10, reg_loss: 0.25, center_ness_loss: 0.63, loss_total: 0.97
+2021-05-18 15:36:00,572 - __main__ - INFO - train: epoch 007, iter [00030, 00057], cls_loss: 0.11, reg_loss: 0.26, center_ness_loss: 0.62, loss_total: 0.99
+2021-05-18 15:36:02,831 - __main__ - INFO - train: epoch 007, iter [00040, 00057], cls_loss: 0.23, reg_loss: 0.35, center_ness_loss: 0.67, loss_total: 1.25
+2021-05-18 15:36:05,030 - __main__ - INFO - train: epoch 007, iter [00050, 00057], cls_loss: 0.14, reg_loss: 0.35, center_ness_loss: 0.65, loss_total: 1.14
+2021-05-18 15:37:47,810 - __main__ - INFO - use 2 gpus
+2021-05-18 15:37:47,811 - __main__ - INFO - args: Namespace(apex=True, checkpoints='/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1', epochs=24, evaluate=None, input_image_size=512, local_rank=0, log='./multi_class/log_1', lr=0.0001, network='resnet50_yolof', num_workers=4, per_node_batch_size=4, print_interval=10, resume='/home/jovyan/data-vol-polefs-1/small_sample/multi_task/checkpoints/v1/latest.pth', seed=0, sync_bn=False, version=1)
+2021-05-18 15:37:47,811 - __main__ - INFO - start loading data
+2021-05-18 15:37:47,811 - __main__ - INFO - finish loading data
+2021-05-18 15:38:06,711 - __main__ - INFO - pretrained_model: /home/jovyan/data-vol-polefs-1/yolof_dc5_res50_coco667_withImPre/best.pth
+2021-05-18 15:38:06,837 - __main__ - INFO - scales,True
+2021-05-18 15:38:06,837 - __main__ - INFO - backbone.model.conv1.weight,True
+2021-05-18 15:38:06,837 - __main__ - INFO - backbone.model.bn1.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.bn1.bias,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.conv1.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.bn1.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.bn1.bias,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.conv2.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.bn2.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.bn2.bias,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.conv3.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.bn3.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.bn3.bias,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.downsample.0.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.downsample.1.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.0.downsample.1.bias,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.1.conv1.weight,True
+2021-05-18 15:38:06,838 - __main__ - INFO - backbone.model.layer1.1.bn1.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.1.bn1.bias,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.1.conv2.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.1.bn2.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.1.bn2.bias,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.1.conv3.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.1.bn3.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.1.bn3.bias,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.2.conv1.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.2.bn1.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.2.bn1.bias,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.2.conv2.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.2.bn2.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.2.bn2.bias,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.2.conv3.weight,True
+2021-05-18 15:38:06,839 - __main__ - INFO - backbone.model.layer1.2.bn3.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer1.2.bn3.bias,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.conv1.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.bn1.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.bn1.bias,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.conv2.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.bn2.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.bn2.bias,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.conv3.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.bn3.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.bn3.bias,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.downsample.0.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.downsample.1.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.0.downsample.1.bias,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.1.conv1.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.1.bn1.weight,True
+2021-05-18 15:38:06,840 - __main__ - INFO - backbone.model.layer2.1.bn1.bias,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.1.conv2.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.1.bn2.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.1.bn2.bias,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.1.conv3.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.1.bn3.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.1.bn3.bias,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.conv1.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.bn1.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.bn1.bias,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.conv2.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.bn2.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.bn2.bias,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.conv3.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.bn3.weight,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.2.bn3.bias,True
+2021-05-18 15:38:06,841 - __main__ - INFO - backbone.model.layer2.3.conv1.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer2.3.bn1.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer2.3.bn1.bias,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer2.3.conv2.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer2.3.bn2.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer2.3.bn2.bias,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer2.3.conv3.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer2.3.bn3.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer2.3.bn3.bias,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer3.0.conv1.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer3.0.bn1.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer3.0.bn1.bias,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer3.0.conv2.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer3.0.bn2.weight,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer3.0.bn2.bias,True
+2021-05-18 15:38:06,842 - __main__ - INFO - backbone.model.layer3.0.conv3.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.0.bn3.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.0.bn3.bias,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.0.downsample.0.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.0.downsample.1.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.0.downsample.1.bias,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.conv1.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.bn1.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.bn1.bias,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.conv2.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.bn2.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.bn2.bias,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.conv3.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.bn3.weight,True
+2021-05-18 15:38:06,843 - __main__ - INFO - backbone.model.layer3.1.bn3.bias,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.conv1.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.bn1.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.bn1.bias,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.conv2.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.bn2.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.bn2.bias,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.conv3.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.bn3.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.2.bn3.bias,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.3.conv1.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.3.bn1.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.3.bn1.bias,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.3.conv2.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.3.bn2.weight,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.3.bn2.bias,True
+2021-05-18 15:38:06,844 - __main__ - INFO - backbone.model.layer3.3.conv3.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.3.bn3.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.3.bn3.bias,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.conv1.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.bn1.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.bn1.bias,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.conv2.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.bn2.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.bn2.bias,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.conv3.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.bn3.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.4.bn3.bias,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.5.conv1.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.5.bn1.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.5.bn1.bias,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.5.conv2.weight,True
+2021-05-18 15:38:06,845 - __main__ - INFO - backbone.model.layer3.5.bn2.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer3.5.bn2.bias,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer3.5.conv3.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer3.5.bn3.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer3.5.bn3.bias,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.conv1.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.bn1.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.bn1.bias,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.conv2.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.bn2.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.bn2.bias,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.conv3.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.bn3.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.bn3.bias,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.downsample.0.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.downsample.1.weight,True
+2021-05-18 15:38:06,846 - __main__ - INFO - backbone.model.layer4.0.downsample.1.bias,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.conv1.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.bn1.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.bn1.bias,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.conv2.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.bn2.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.bn2.bias,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.conv3.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.bn3.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.1.bn3.bias,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.2.conv1.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.2.bn1.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.2.bn1.bias,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.2.conv2.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.2.bn2.weight,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.2.bn2.bias,True
+2021-05-18 15:38:06,847 - __main__ - INFO - backbone.model.layer4.2.conv3.weight,True
+2021-05-18 15:38:06,848 - __main__ - INFO - backbone.model.layer4.2.bn3.weight,True
+2021-05-18 15:38:06,848 - __main__ - INFO - backbone.model.layer4.2.bn3.bias,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.lateral_conv.weight,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.lateral_conv.bias,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.lateral_norm.weight,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.lateral_norm.bias,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.fpn_conv.weight,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.fpn_conv.bias,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.fpn_norm.weight,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.fpn_norm.bias,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv1.0.weight,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv1.0.bias,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv1.1.weight,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv1.1.bias,True
+2021-05-18 15:38:06,848 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv2.0.weight,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv2.0.bias,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv2.1.weight,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv2.1.bias,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv3.0.weight,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv3.0.bias,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv3.1.weight,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.0.conv3.1.bias,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv1.0.weight,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv1.0.bias,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv1.1.weight,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv1.1.bias,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv2.0.weight,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv2.0.bias,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv2.1.weight,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv2.1.bias,True
+2021-05-18 15:38:06,849 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv3.0.weight,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv3.0.bias,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv3.1.weight,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.1.conv3.1.bias,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv1.0.weight,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv1.0.bias,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv1.1.weight,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv1.1.bias,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv2.0.weight,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv2.0.bias,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv2.1.weight,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv2.1.bias,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv3.0.weight,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv3.0.bias,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv3.1.weight,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.2.conv3.1.bias,True
+2021-05-18 15:38:06,850 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv1.0.weight,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv1.0.bias,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv1.1.weight,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv1.1.bias,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv2.0.weight,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv2.0.bias,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv2.1.weight,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv2.1.bias,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv3.0.weight,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv3.0.bias,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv3.1.weight,True
+2021-05-18 15:38:06,851 - __main__ - INFO - dila_encoder.dilated_encoder_blocks.3.conv3.1.bias,True
+2021-05-18 15:38:06,851 - __main__ - INFO - clsregcnt_head.cls_head.0.weight,False
+2021-05-18 15:38:06,851 - __main__ - INFO - clsregcnt_head.cls_head.0.bias,False
+2021-05-18 15:38:06,851 - __main__ - INFO - clsregcnt_head.cls_head.2.weight,False
+2021-05-18 15:38:06,851 - __main__ - INFO - clsregcnt_head.cls_head.2.bias,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.cls_head.4.weight,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.cls_head.4.bias,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.cls_head.6.weight,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.cls_head.6.bias,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_head.0.weight,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_head.0.bias,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_head.2.weight,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_head.2.bias,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_head.4.weight,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_head.4.bias,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_head.6.weight,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_head.6.bias,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.cls_out.weight,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.cls_out.bias,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_out.weight,False
+2021-05-18 15:38:06,852 - __main__ - INFO - clsregcnt_head.reg_out.bias,False
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head.center_out.weight,False
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head.center_out.bias,False
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.cls_head.0.weight,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.cls_head.0.bias,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.cls_head.2.weight,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.cls_head.2.bias,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.cls_head.4.weight,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.cls_head.4.bias,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.cls_head.6.weight,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.cls_head.6.bias,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.reg_head.0.weight,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.reg_head.0.bias,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.reg_head.2.weight,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.reg_head.2.bias,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.reg_head.4.weight,True
+2021-05-18 15:38:06,853 - __main__ - INFO - clsregcnt_head2.reg_head.4.bias,True
+2021-05-18 15:38:06,854 - __main__ - INFO - clsregcnt_head2.reg_head.6.weight,True
+2021-05-18 15:38:06,854 - __main__ - INFO - clsregcnt_head2.reg_head.6.bias,True
+2021-05-18 15:38:06,854 - __main__ - INFO - clsregcnt_head2.cls_out.weight,True
+2021-05-18 15:38:06,854 - __main__ - INFO - clsregcnt_head2.cls_out.bias,True
+2021-05-18 15:38:06,854 - __main__ - INFO - clsregcnt_head2.reg_out.weight,True
+2021-05-18 15:38:06,854 - __main__ - INFO - clsregcnt_head2.reg_out.bias,True
+2021-05-18 15:38:06,854 - __main__ - INFO - clsregcnt_head2.center_out.weight,True
+2021-05-18 15:38:06,854 - __main__ - INFO - clsregcnt_head2.center_out.bias,True
+2021-05-18 15:38:06,854 - __main__ - INFO - trans.weight,True
+2021-05-18 15:38:06,854 - __main__ - INFO - c4_out.weight,True
+2021-05-18 15:38:06,854 - __main__ - INFO - c4_out.bias,True
+2021-05-18 15:38:09,046 - __main__ - INFO - model: 'resnet50_yolof', flops: 84.129G, params: 84.699M
+2021-05-18 15:38:12,618 - __main__ - INFO - start training
+2021-05-18 15:38:23,424 - __main__ - INFO - train: epoch 001, iter [00010, 00057], cls_loss: 0.34, reg_loss: 0.98, center_ness_loss: 0.70, loss_total: 2.02
+2021-05-18 15:38:28,800 - __main__ - INFO - train: epoch 001, iter [00020, 00057], cls_loss: 0.23, reg_loss: 1.06, center_ness_loss: 0.75, loss_total: 2.05
+2021-05-18 15:38:33,853 - __main__ - INFO - train: epoch 001, iter [00030, 00057], cls_loss: 0.18, reg_loss: 0.81, center_ness_loss: 0.67, loss_total: 1.66
+2021-05-18 15:38:39,280 - __main__ - INFO - train: epoch 001, iter [00040, 00057], cls_loss: 0.14, reg_loss: 0.79, center_ness_loss: 0.66, loss_total: 1.60
+2021-05-18 15:38:44,936 - __main__ - INFO - train: epoch 001, iter [00050, 00057], cls_loss: 0.17, reg_loss: 0.57, center_ness_loss: 0.66, loss_total: 1.41
+2021-05-18 15:38:54,605 - __main__ - INFO - train: epoch 001, cls_loss: 0.63, reg_loss: 0.76, center_ness_loss: 0.69, loss: 2.08
+2021-05-18 15:39:08,019 - __main__ - INFO - train: epoch 002, iter [00010, 00057], cls_loss: 0.07, reg_loss: 0.42, center_ness_loss: 0.63, loss_total: 1.11
+2021-05-18 15:39:13,025 - __main__ - INFO - train: epoch 002, iter [00020, 00057], cls_loss: 0.08, reg_loss: 0.77, center_ness_loss: 0.64, loss_total: 1.49
+2021-05-18 15:39:18,055 - __main__ - INFO - train: epoch 002, iter [00030, 00057], cls_loss: 0.11, reg_loss: 0.33, center_ness_loss: 0.63, loss_total: 1.07
+2021-05-18 15:39:23,128 - __main__ - INFO - train: epoch 002, iter [00040, 00057], cls_loss: 0.13, reg_loss: 0.35, center_ness_loss: 0.63, loss_total: 1.11
+2021-05-18 15:39:28,168 - __main__ - INFO - train: epoch 002, iter [00050, 00057], cls_loss: 0.08, reg_loss: 0.53, center_ness_loss: 0.63, loss_total: 1.24
+2021-05-18 15:39:32,063 - __main__ - INFO - train: epoch 002, cls_loss: 0.11, reg_loss: 0.49, center_ness_loss: 0.64, loss: 1.24
+2021-05-18 15:39:45,929 - __main__ - INFO - train: epoch 003, iter [00010, 00057], cls_loss: 0.17, reg_loss: 0.35, center_ness_loss: 0.67, loss_total: 1.19
+2021-05-18 15:39:50,931 - __main__ - INFO - train: epoch 003, iter [00020, 00057], cls_loss: 0.10, reg_loss: 0.42, center_ness_loss: 0.64, loss_total: 1.15
+2021-05-18 15:39:56,058 - __main__ - INFO - train: epoch 003, iter [00030, 00057], cls_loss: 0.13, reg_loss: 0.31, center_ness_loss: 0.62, loss_total: 1.06
+2021-05-18 15:40:01,572 - __main__ - INFO - train: epoch 003, iter [00040, 00057], cls_loss: 0.09, reg_loss: 0.34, center_ness_loss: 0.61, loss_total: 1.04
+2021-05-18 15:40:07,089 - __main__ - INFO - train: epoch 003, iter [00050, 00057], cls_loss: 0.10, reg_loss: 0.52, center_ness_loss: 0.63, loss_total: 1.25
+2021-05-18 15:40:11,417 - __main__ - INFO - train: epoch 003, cls_loss: 0.12, reg_loss: 0.38, center_ness_loss: 0.63, loss: 1.14
+2021-05-18 15:40:25,119 - __main__ - INFO - train: epoch 004, iter [00010, 00057], cls_loss: 0.10, reg_loss: 0.27, center_ness_loss: 0.60, loss_total: 0.98
+2021-05-18 15:40:30,095 - __main__ - INFO - train: epoch 004, iter [00020, 00057], cls_loss: 0.07, reg_loss: 0.29, center_ness_loss: 0.62, loss_total: 0.98
+2021-05-18 15:40:35,103 - __main__ - INFO - train: epoch 004, iter [00030, 00057], cls_loss: 0.11, reg_loss: 0.30, center_ness_loss: 0.62, loss_total: 1.02
+2021-05-18 15:40:40,105 - __main__ - INFO - train: epoch 004, iter [00040, 00057], cls_loss: 0.13, reg_loss: 0.33, center_ness_loss: 0.64, loss_total: 1.10
+2021-05-18 15:40:45,148 - __main__ - INFO - train: epoch 004, iter [00050, 00057], cls_loss: 0.07, reg_loss: 0.41, center_ness_loss: 0.65, loss_total: 1.13
+2021-05-18 15:40:49,069 - __main__ - INFO - train: epoch 004, cls_loss: 0.12, reg_loss: 0.36, center_ness_loss: 0.63, loss: 1.11
+2021-05-18 15:41:02,625 - __main__ - INFO - train: epoch 005, iter [00010, 00057], cls_loss: 0.08, reg_loss: 0.33, center_ness_loss: 0.60, loss_total: 1.00
+2021-05-18 15:41:07,638 - __main__ - INFO - train: epoch 005, iter [00020, 00057], cls_loss: 0.13, reg_loss: 0.29, center_ness_loss: 0.60, loss_total: 1.02
+2021-05-18 15:41:12,637 - __main__ - INFO - train: epoch 005, iter [00030, 00057], cls_loss: 0.13, reg_loss: 0.48, center_ness_loss: 0.66, loss_total: 1.26
+2021-05-18 15:41:17,689 - __main__ - INFO - train: epoch 005, iter [00040, 00057], cls_loss: 0.06, reg_loss: 0.39, center_ness_loss: 0.63, loss_total: 1.08
+2021-05-18 15:41:22,663 - __main__ - INFO - train: epoch 005, iter [00050, 00057], cls_loss: 0.10, reg_loss: 0.27, center_ness_loss: 0.62, loss_total: 0.98
+2021-05-18 15:41:26,559 - __main__ - INFO - train: epoch 005, cls_loss: 0.10, reg_loss: 0.35, center_ness_loss: 0.62, loss: 1.07
+2021-05-18 15:41:41,326 - __main__ - INFO - train: epoch 006, iter [00010, 00057], cls_loss: 0.10, reg_loss: 0.29, center_ness_loss: 0.59, loss_total: 0.99
+2021-05-18 15:41:46,340 - __main__ - INFO - train: epoch 006, iter [00020, 00057], cls_loss: 0.07, reg_loss: 0.27, center_ness_loss: 0.63, loss_total: 0.97
+2021-05-18 15:41:51,325 - __main__ - INFO - train: epoch 006, iter [00030, 00057], cls_loss: 0.10, reg_loss: 0.28, center_ness_loss: 0.60, loss_total: 0.98
+2021-05-18 15:41:56,400 - __main__ - INFO - train: epoch 006, iter [00040, 00057], cls_loss: 0.10, reg_loss: 0.20, center_ness_loss: 0.61, loss_total: 0.90
+2021-05-18 15:42:01,371 - __main__ - INFO - train: epoch 006, iter [00050, 00057], cls_loss: 0.07, reg_loss: 0.27, center_ness_loss: 0.62, loss_total: 0.96
+2021-05-18 15:42:05,236 - __main__ - INFO - train: epoch 006, cls_loss: 0.09, reg_loss: 0.28, center_ness_loss: 0.62, loss: 0.99
+2021-05-18 15:42:05,236 - __main__ - INFO - start eval.
+2021-05-18 15:42:37,014 - __main__ - INFO - eval done.
+2021-05-18 15:42:37,015 - __main__ - INFO - val: epoch: 00006, IoU=0.5:0.95,area=all,maxDets=100,mAP:0.283, IoU=0.5,area=all,maxDets=100,mAP:0.740, IoU=0.75,area=all,maxDets=100,mAP:0.108, IoU=0.5:0.95,area=small,maxDets=100,mAP:0.204, IoU=0.5:0.95,area=medium,maxDets=100,mAP:0.399, IoU=0.5:0.95,area=large,maxDets=100,mAP:0.215, IoU=0.5:0.95,area=all,maxDets=1,mAR:0.066, IoU=0.5:0.95,area=all,maxDets=10,mAR:0.318, IoU=0.5:0.95,area=all,maxDets=100,mAR:0.384, IoU=0.5:0.95,area=small,maxDets=100,mAR:0.326, IoU=0.5:0.95,area=medium,maxDets=100,mAR:0.485, IoU=0.5:0.95,area=large,maxDets=100,mAR:0.340
+2021-05-18 15:42:54,513 - __main__ - INFO - train: epoch 007, iter [00010, 00057], cls_loss: 0.08, reg_loss: 0.22, center_ness_loss: 0.60, loss_total: 0.90
+2021-05-18 15:42:59,921 - __main__ - INFO - train: epoch 007, iter [00020, 00057], cls_loss: 0.08, reg_loss: 0.23, center_ness_loss: 0.62, loss_total: 0.93
+2021-05-18 15:43:05,611 - __main__ - INFO - train: epoch 007, iter [00030, 00057], cls_loss: 0.10, reg_loss: 0.28, center_ness_loss: 0.58, loss_total: 0.95
+2021-05-18 15:43:10,872 - __main__ - INFO - train: epoch 007, iter [00040, 00057], cls_loss: 0.08, reg_loss: 0.28, center_ness_loss: 0.64, loss_total: 1.00
+2021-05-18 15:43:15,999 - __main__ - INFO - train: epoch 007, iter [00050, 00057], cls_loss: 0.07, reg_loss: 0.22, center_ness_loss: 0.61, loss_total: 0.90
+2021-05-18 15:43:19,894 - __main__ - INFO - train: epoch 007, cls_loss: 0.09, reg_loss: 0.27, center_ness_loss: 0.61, loss: 0.96
+2021-05-18 15:43:34,002 - __main__ - INFO - train: epoch 008, iter [00010, 00057], cls_loss: 0.06, reg_loss: 0.23, center_ness_loss: 0.63, loss_total: 0.93
+2021-05-18 15:43:39,095 - __main__ - INFO - train: epoch 008, iter [00020, 00057], cls_loss: 0.08, reg_loss: 0.26, center_ness_loss: 0.61, loss_total: 0.95
+2021-05-18 15:43:44,124 - __main__ - INFO - train: epoch 008, iter [00030, 00057], cls_loss: 0.08, reg_loss: 0.19, center_ness_loss: 0.60, loss_total: 0.86
+2021-05-18 15:43:49,134 - __main__ - INFO - train: epoch 008, iter [00040, 00057], cls_loss: 0.07, reg_loss: 0.20, center_ness_loss: 0.60, loss_total: 0.87
+2021-05-18 15:43:54,127 - __main__ - INFO - train: epoch 008, iter [00050, 00057], cls_loss: 0.11, reg_loss: 0.40, center_ness_loss: 0.63, loss_total: 1.14
+2021-05-18 15:43:58,072 - __main__ - INFO - train: epoch 008, cls_loss: 0.08, reg_loss: 0.27, center_ness_loss: 0.61, loss: 0.96
+2021-05-18 15:44:11,590 - __main__ - INFO - train: epoch 009, iter [00010, 00057], cls_loss: 0.06, reg_loss: 0.40, center_ness_loss: 0.61, loss_total: 1.07
+2021-05-18 15:44:16,596 - __main__ - INFO - train: epoch 009, iter [00020, 00057], cls_loss: 0.15, reg_loss: 0.21, center_ness_loss: 0.59, loss_total: 0.94
+2021-05-18 15:44:21,606 - __main__ - INFO - train: epoch 009, iter [00030, 00057], cls_loss: 0.09, reg_loss: 0.40, center_ness_loss: 0.66, loss_total: 1.14
+2021-05-18 15:44:26,748 - __main__ - INFO - train: epoch 009, iter [00040, 00057], cls_loss: 0.07, reg_loss: 0.30, center_ness_loss: 0.63, loss_total: 1.00
+2021-05-18 15:44:32,233 - __main__ - INFO - train: epoch 009, iter [00050, 00057], cls_loss: 0.06, reg_loss: 0.16, center_ness_loss: 0.57, loss_total: 0.79
+2021-05-18 15:44:36,610 - __main__ - INFO - train: epoch 009, cls_loss: 0.08, reg_loss: 0.28, center_ness_loss: 0.61, loss: 0.97
+2021-05-18 15:44:50,519 - __main__ - INFO - train: epoch 010, iter [00010, 00057], cls_loss: 0.08, reg_loss: 0.37, center_ness_loss: 0.61, loss_total: 1.06
+2021-05-18 15:44:56,085 - __main__ - INFO - train: epoch 010, iter [00020, 00057], cls_loss: 0.06, reg_loss: 0.29, center_ness_loss: 0.61, loss_total: 0.96
+2021-05-18 15:45:01,637 - __main__ - INFO - train: epoch 010, iter [00030, 00057], cls_loss: 0.07, reg_loss: 0.24, center_ness_loss: 0.63, loss_total: 0.94
+2021-05-18 15:45:07,162 - __main__ - INFO - train: epoch 010, iter [00040, 00057], cls_loss: 0.05, reg_loss: 0.22, center_ness_loss: 0.58, loss_total: 0.85
+2021-05-18 15:45:12,181 - __main__ - INFO - train: epoch 010, iter [00050, 00057], cls_loss: 0.07, reg_loss: 0.22, center_ness_loss: 0.60, loss_total: 0.89
+2021-05-18 15:45:16,068 - __main__ - INFO - train: epoch 010, cls_loss: 0.09, reg_loss: 0.28, center_ness_loss: 0.61, loss: 0.97
+2021-05-18 15:45:29,445 - __main__ - INFO - train: epoch 011, iter [00010, 00057], cls_loss: 0.05, reg_loss: 0.20, center_ness_loss: 0.58, loss_total: 0.83
+2021-05-18 15:45:34,401 - __main__ - INFO - train: epoch 011, iter [00020, 00057], cls_loss: 0.07, reg_loss: 0.20, center_ness_loss: 0.60, loss_total: 0.87
+2021-05-18 15:45:39,434 - __main__ - INFO - train: epoch 011, iter [00030, 00057], cls_loss: 0.09, reg_loss: 0.16, center_ness_loss: 0.59, loss_total: 0.83
+2021-05-18 15:45:44,403 - __main__ - INFO - train: epoch 011, iter [00040, 00057], cls_loss: 0.06, reg_loss: 0.19, center_ness_loss: 0.56, loss_total: 0.81
+2021-05-18 15:45:49,414 - __main__ - INFO - train: epoch 011, iter [00050, 00057], cls_loss: 0.06, reg_loss: 0.21, center_ness_loss: 0.59, loss_total: 0.86
+2021-05-18 15:45:53,362 - __main__ - INFO - train: epoch 011, cls_loss: 0.08, reg_loss: 0.25, center_ness_loss: 0.61, loss: 0.93
+2021-05-18 15:46:07,269 - __main__ - INFO - train: epoch 012, iter [00010, 00057], cls_loss: 0.10, reg_loss: 0.25, center_ness_loss: 0.61, loss_total: 0.97
+2021-05-18 15:46:12,772 - __main__ - INFO - train: epoch 012, iter [00020, 00057], cls_loss: 0.04, reg_loss: 0.25, center_ness_loss: 0.58, loss_total: 0.87
+2021-05-18 15:46:17,927 - __main__ - INFO - train: epoch 012, iter [00030, 00057], cls_loss: 0.05, reg_loss: 0.28, center_ness_loss: 0.62, loss_total: 0.95
+2021-05-18 15:46:22,906 - __main__ - INFO - train: epoch 012, iter [00040, 00057], cls_loss: 0.11, reg_loss: 0.34, center_ness_loss: 0.62, loss_total: 1.08
+2021-05-18 15:46:27,896 - __main__ - INFO - train: epoch 012, iter [00050, 00057], cls_loss: 0.04, reg_loss: 0.14, center_ness_loss: 0.57, loss_total: 0.75
+2021-05-18 15:46:31,770 - __main__ - INFO - train: epoch 012, cls_loss: 0.07, reg_loss: 0.24, center_ness_loss: 0.60, loss: 0.91
+2021-05-18 15:46:31,771 - __main__ - INFO - start eval.
+2021-05-18 15:47:01,582 - __main__ - INFO - eval done.
+2021-05-18 15:47:01,583 - __main__ - INFO - val: epoch: 00012, IoU=0.5:0.95,area=all,maxDets=100,mAP:0.291, IoU=0.5,area=all,maxDets=100,mAP:0.810, IoU=0.75,area=all,maxDets=100,mAP:0.085, IoU=0.5:0.95,area=small,maxDets=100,mAP:0.263, IoU=0.5:0.95,area=medium,maxDets=100,mAP:0.336, IoU=0.5:0.95,area=large,maxDets=100,mAP:0.127, IoU=0.5:0.95,area=all,maxDets=1,mAR:0.071, IoU=0.5:0.95,area=all,maxDets=10,mAR:0.342, IoU=0.5:0.95,area=all,maxDets=100,mAR:0.400, IoU=0.5:0.95,area=small,maxDets=100,mAR:0.388, IoU=0.5:0.95,area=medium,maxDets=100,mAR:0.424, IoU=0.5:0.95,area=large,maxDets=100,mAR:0.130
+2021-05-18 15:47:18,009 - __main__ - INFO - train: epoch 013, iter [00010, 00057], cls_loss: 0.06, reg_loss: 0.20, center_ness_loss: 0.60, loss_total: 0.86
+2021-05-18 15:47:23,487 - __main__ - INFO - train: epoch 013, iter [00020, 00057], cls_loss: 0.06, reg_loss: 0.36, center_ness_loss: 0.62, loss_total: 1.05
+2021-05-18 15:47:28,481 - __main__ - INFO - train: epoch 013, iter [00030, 00057], cls_loss: 0.17, reg_loss: 0.36, center_ness_loss: 0.63, loss_total: 1.16
+2021-05-18 15:47:33,445 - __main__ - INFO - train: epoch 013, iter [00040, 00057], cls_loss: 0.09, reg_loss: 0.24, center_ness_loss: 0.60, loss_total: 0.93
+2021-05-18 15:47:38,453 - __main__ - INFO - train: epoch 013, iter [00050, 00057], cls_loss: 0.31, reg_loss: 0.20, center_ness_loss: 0.51, loss_total: 1.03
+2021-05-18 15:47:42,356 - __main__ - INFO - train: epoch 013, cls_loss: 0.08, reg_loss: 0.26, center_ness_loss: 0.60, loss: 0.94
+2021-05-18 15:47:56,826 - __main__ - INFO - train: epoch 014, iter [00010, 00057], cls_loss: 0.06, reg_loss: 0.27, center_ness_loss: 0.64, loss_total: 0.97
+2021-05-18 15:48:01,844 - __main__ - INFO - train: epoch 014, iter [00020, 00057], cls_loss: 0.06, reg_loss: 0.20, center_ness_loss: 0.60, loss_total: 0.86
+2021-05-18 15:48:06,843 - __main__ - INFO - train: epoch 014, iter [00030, 00057], cls_loss: 0.07, reg_loss: 0.28, center_ness_loss: 0.62, loss_total: 0.96
+2021-05-18 15:48:11,875 - __main__ - INFO - train: epoch 014, iter [00040, 00057], cls_loss: 0.05, reg_loss: 0.18, center_ness_loss: 0.57, loss_total: 0.80
+2021-05-18 15:48:16,864 - __main__ - INFO - train: epoch 014, iter [00050, 00057], cls_loss: 0.03, reg_loss: 0.20, center_ness_loss: 0.59, loss_total: 0.82
+2021-05-18 15:48:20,754 - __main__ - INFO - train: epoch 014, cls_loss: 0.06, reg_loss: 0.25, center_ness_loss: 0.61, loss: 0.93
+2021-05-18 15:48:34,718 - __main__ - INFO - train: epoch 015, iter [00010, 00057], cls_loss: 0.05, reg_loss: 0.42, center_ness_loss: 0.60, loss_total: 1.07
+2021-05-18 15:48:42,857 - __main__ - INFO - train: epoch 015, iter [00020, 00057], cls_loss: 0.04, reg_loss: 0.29, center_ness_loss: 0.62, loss_total: 0.95
+2021-05-18 15:48:47,873 - __main__ - INFO - train: epoch 015, iter [00030, 00057], cls_loss: 0.04, reg_loss: 0.41, center_ness_loss: 0.61, loss_total: 1.06
+2021-05-18 15:48:52,888 - __main__ - INFO - train: epoch 015, iter [00040, 00057], cls_loss: 0.06, reg_loss: 0.25, center_ness_loss: 0.60, loss_total: 0.90
+2021-05-18 15:48:57,953 - __main__ - INFO - train: epoch 015, iter [00050, 00057], cls_loss: 0.05, reg_loss: 0.19, center_ness_loss: 0.60, loss_total: 0.84
+2021-05-18 15:49:01,864 - __main__ - INFO - train: epoch 015, cls_loss: 0.07, reg_loss: 0.28, center_ness_loss: 0.60, loss: 0.94
+2021-05-18 15:49:15,584 - __main__ - INFO - train: epoch 016, iter [00010, 00057], cls_loss: 0.07, reg_loss: 0.19, center_ness_loss: 0.58, loss_total: 0.84
+2021-05-18 15:49:21,069 - __main__ - INFO - train: epoch 016, iter [00020, 00057], cls_loss: 0.04, reg_loss: 0.37, center_ness_loss: 0.61, loss_total: 1.02
+2021-05-18 15:49:26,552 - __main__ - INFO - train: epoch 016, iter [00030, 00057], cls_loss: 0.03, reg_loss: 0.21, center_ness_loss: 0.63, loss_total: 0.87
+2021-05-18 15:49:31,717 - __main__ - INFO - train: epoch 016, iter [00040, 00057], cls_loss: 0.11, reg_loss: 0.30, center_ness_loss: 0.59, loss_total: 1.00
+2021-05-18 15:49:36,742 - __main__ - INFO - train: epoch 016, iter [00050, 00057], cls_loss: 0.05, reg_loss: 0.24, center_ness_loss: 0.61, loss_total: 0.90
+2021-05-18 15:49:40,644 - __main__ - INFO - train: epoch 016, cls_loss: 0.06, reg_loss: 0.27, center_ness_loss: 0.60, loss: 0.93
+2021-05-18 15:49:54,382 - __main__ - INFO - train: epoch 017, iter [00010, 00057], cls_loss: 0.06, reg_loss: 0.18, center_ness_loss: 0.57, loss_total: 0.82
+2021-05-18 15:49:59,380 - __main__ - INFO - train: epoch 017, iter [00020, 00057], cls_loss: 0.05, reg_loss: 0.16, center_ness_loss: 0.59, loss_total: 0.80
+2021-05-18 15:50:04,375 - __main__ - INFO - train: epoch 017, iter [00030, 00057], cls_loss: 0.04, reg_loss: 0.15, center_ness_loss: 0.58, loss_total: 0.78
+2021-05-18 15:50:09,366 - __main__ - INFO - train: epoch 017, iter [00040, 00057], cls_loss: 0.04, reg_loss: 0.26, center_ness_loss: 0.61, loss_total: 0.91
+2021-05-18 15:50:14,331 - __main__ - INFO - train: epoch 017, iter [00050, 00057], cls_loss: 0.05, reg_loss: 0.23, center_ness_loss: 0.60, loss_total: 0.89
+2021-05-18 15:50:18,251 - __main__ - INFO - train: epoch 017, cls_loss: 0.06, reg_loss: 0.18, center_ness_loss: 0.60, loss: 0.84
+2021-05-18 15:50:31,872 - __main__ - INFO - train: epoch 018, iter [00010, 00057], cls_loss: 0.04, reg_loss: 0.15, center_ness_loss: 0.61, loss_total: 0.81
+2021-05-18 15:50:36,941 - __main__ - INFO - train: epoch 018, iter [00020, 00057], cls_loss: 0.06, reg_loss: 0.18, center_ness_loss: 0.62, loss_total: 0.86
+2021-05-18 15:50:41,982 - __main__ - INFO - train: epoch 018, iter [00030, 00057], cls_loss: 0.06, reg_loss: 0.17, center_ness_loss: 0.63, loss_total: 0.86
+2021-05-18 15:50:47,054 - __main__ - INFO - train: epoch 018, iter [00040, 00057], cls_loss: 0.04, reg_loss: 0.12, center_ness_loss: 0.59, loss_total: 0.74
+2021-05-18 15:50:52,305 - __main__ - INFO - train: epoch 018, iter [00050, 00057], cls_loss: 0.05, reg_loss: 0.15, center_ness_loss: 0.60, loss_total: 0.80
+2021-05-18 15:50:56,570 - __main__ - INFO - train: epoch 018, cls_loss: 0.05, reg_loss: 0.16, center_ness_loss: 0.60, loss: 0.82
+2021-05-18 15:50:56,570 - __main__ - INFO - start eval.
+2021-05-18 15:51:24,699 - __main__ - INFO - eval done.
+2021-05-18 15:51:24,699 - __main__ - INFO - val: epoch: 00018, IoU=0.5:0.95,area=all,maxDets=100,mAP:0.461, IoU=0.5,area=all,maxDets=100,mAP:0.850, IoU=0.75,area=all,maxDets=100,mAP:0.468, IoU=0.5:0.95,area=small,maxDets=100,mAP:0.380, IoU=0.5:0.95,area=medium,maxDets=100,mAP:0.588, IoU=0.5:0.95,area=large,maxDets=100,mAP:0.677, IoU=0.5:0.95,area=all,maxDets=1,mAR:0.099, IoU=0.5:0.95,area=all,maxDets=10,mAR:0.483, IoU=0.5:0.95,area=all,maxDets=100,mAR:0.535, IoU=0.5:0.95,area=small,maxDets=100,mAR:0.459, IoU=0.5:0.95,area=medium,maxDets=100,mAR:0.665, IoU=0.5:0.95,area=large,maxDets=100,mAR:0.700
+2021-05-18 15:51:44,788 - __main__ - INFO - train: epoch 019, iter [00010, 00057], cls_loss: 0.06, reg_loss: 0.17, center_ness_loss: 0.59, loss_total: 0.83
+2021-05-18 15:51:49,850 - __main__ - INFO - train: epoch 019, iter [00020, 00057], cls_loss: 0.04, reg_loss: 0.13, center_ness_loss: 0.58, loss_total: 0.75
+2021-05-18 15:51:54,869 - __main__ - INFO - train: epoch 019, iter [00030, 00057], cls_loss: 0.05, reg_loss: 0.15, center_ness_loss: 0.57, loss_total: 0.78
+2021-05-18 15:51:59,936 - __main__ - INFO - train: epoch 019, iter [00040, 00057], cls_loss: 0.05, reg_loss: 0.14, center_ness_loss: 0.55, loss_total: 0.74
+2021-05-18 15:52:04,961 - __main__ - INFO - train: epoch 019, iter [00050, 00057], cls_loss: 0.04, reg_loss: 0.18, center_ness_loss: 0.61, loss_total: 0.83
+2021-05-18 15:52:08,863 - __main__ - INFO - train: epoch 019, cls_loss: 0.05, reg_loss: 0.17, center_ness_loss: 0.60, loss: 0.83
+2021-05-18 15:52:22,436 - __main__ - INFO - train: epoch 020, iter [00010, 00057], cls_loss: 0.06, reg_loss: 0.18, center_ness_loss: 0.59, loss_total: 0.84
+2021-05-18 15:52:27,475 - __main__ - INFO - train: epoch 020, iter [00020, 00057], cls_loss: 0.07, reg_loss: 0.27, center_ness_loss: 0.62, loss_total: 0.95
+2021-05-18 15:52:32,827 - __main__ - INFO - train: epoch 020, iter [00030, 00057], cls_loss: 0.10, reg_loss: 0.15, center_ness_loss: 0.59, loss_total: 0.84
+2021-05-18 15:52:38,201 - __main__ - INFO - train: epoch 020, iter [00040, 00057], cls_loss: 0.06, reg_loss: 0.12, center_ness_loss: 0.54, loss_total: 0.72
+2021-05-18 15:52:43,555 - __main__ - INFO - train: epoch 020, iter [00050, 00057], cls_loss: 0.04, reg_loss: 0.14, center_ness_loss: 0.60, loss_total: 0.78
+2021-05-18 15:52:47,610 - __main__ - INFO - train: epoch 020, cls_loss: 0.05, reg_loss: 0.16, center_ness_loss: 0.60, loss: 0.82
+2021-05-18 15:53:01,521 - __main__ - INFO - train: epoch 021, iter [00010, 00057], cls_loss: 0.04, reg_loss: 0.17, center_ness_loss: 0.58, loss_total: 0.79
+2021-05-18 15:53:06,604 - __main__ - INFO - train: epoch 021, iter [00020, 00057], cls_loss: 0.05, reg_loss: 0.18, center_ness_loss: 0.61, loss_total: 0.84
+2021-05-18 15:53:11,667 - __main__ - INFO - train: epoch 021, iter [00030, 00057], cls_loss: 0.04, reg_loss: 0.14, center_ness_loss: 0.61, loss_total: 0.79
+2021-05-18 15:53:16,805 - __main__ - INFO - train: epoch 021, iter [00040, 00057], cls_loss: 0.05, reg_loss: 0.18, center_ness_loss: 0.61, loss_total: 0.84
+2021-05-18 15:53:21,852 - __main__ - INFO - train: epoch 021, iter [00050, 00057], cls_loss: 0.06, reg_loss: 0.16, center_ness_loss: 0.59, loss_total: 0.80
+2021-05-18 15:53:25,767 - __main__ - INFO - train: epoch 021, cls_loss: 0.05, reg_loss: 0.17, center_ness_loss: 0.60, loss: 0.82
+2021-05-18 15:53:41,575 - __main__ - INFO - train: epoch 022, iter [00010, 00057], cls_loss: 0.04, reg_loss: 0.18, center_ness_loss: 0.62, loss_total: 0.84
+2021-05-18 15:53:46,548 - __main__ - INFO - train: epoch 022, iter [00020, 00057], cls_loss: 0.04, reg_loss: 0.17, center_ness_loss: 0.64, loss_total: 0.84
+2021-05-18 15:53:51,523 - __main__ - INFO - train: epoch 022, iter [00030, 00057], cls_loss: 0.06, reg_loss: 0.14, center_ness_loss: 0.58, loss_total: 0.79
+2021-05-18 15:53:56,764 - __main__ - INFO - train: epoch 022, iter [00040, 00057], cls_loss: 0.04, reg_loss: 0.15, center_ness_loss: 0.62, loss_total: 0.81
+2021-05-18 15:54:01,774 - __main__ - INFO - train: epoch 022, iter [00050, 00057], cls_loss: 0.09, reg_loss: 0.15, center_ness_loss: 0.55, loss_total: 0.79
+2021-05-18 15:54:05,692 - __main__ - INFO - train: epoch 022, cls_loss: 0.05, reg_loss: 0.16, center_ness_loss: 0.60, loss: 0.81
+2021-05-18 15:54:19,230 - __main__ - INFO - train: epoch 023, iter [00010, 00057], cls_loss: 0.03, reg_loss: 0.13, center_ness_loss: 0.61, loss_total: 0.77
+2021-05-18 15:54:24,319 - __main__ - INFO - train: epoch 023, iter [00020, 00057], cls_loss: 0.08, reg_loss: 0.26, center_ness_loss: 0.58, loss_total: 0.91
+2021-05-18 15:54:29,305 - __main__ - INFO - train: epoch 023, iter [00030, 00057], cls_loss: 0.04, reg_loss: 0.11, center_ness_loss: 0.57, loss_total: 0.72
+2021-05-18 15:54:34,310 - __main__ - INFO - train: epoch 023, iter [00040, 00057], cls_loss: 0.04, reg_loss: 0.15, center_ness_loss: 0.59, loss_total: 0.78
+2021-05-18 15:54:39,338 - __main__ - INFO - train: epoch 023, iter [00050, 00057], cls_loss: 0.06, reg_loss: 0.20, center_ness_loss: 0.62, loss_total: 0.89
+2021-05-18 15:54:43,241 - __main__ - INFO - train: epoch 023, cls_loss: 0.05, reg_loss: 0.16, center_ness_loss: 0.60, loss: 0.81
+2021-05-18 15:54:56,568 - __main__ - INFO - train: epoch 024, iter [00010, 00057], cls_loss: 0.08, reg_loss: 0.17, center_ness_loss: 0.64, loss_total: 0.89
+2021-05-18 15:55:01,649 - __main__ - INFO - train: epoch 024, iter [00020, 00057], cls_loss: 0.06, reg_loss: 0.15, center_ness_loss: 0.58, loss_total: 0.79
+2021-05-18 15:55:06,710 - __main__ - INFO - train: epoch 024, iter [00030, 00057], cls_loss: 0.06, reg_loss: 0.12, center_ness_loss: 0.55, loss_total: 0.74
+2021-05-18 15:55:11,698 - __main__ - INFO - train: epoch 024, iter [00040, 00057], cls_loss: 0.05, reg_loss: 0.19, center_ness_loss: 0.58, loss_total: 0.82
+2021-05-18 15:55:16,658 - __main__ - INFO - train: epoch 024, iter [00050, 00057], cls_loss: 0.04, reg_loss: 0.13, center_ness_loss: 0.58, loss_total: 0.75
+2021-05-18 15:55:20,544 - __main__ - INFO - train: epoch 024, cls_loss: 0.05, reg_loss: 0.17, center_ness_loss: 0.60, loss: 0.82
+2021-05-18 15:55:20,544 - __main__ - INFO - start eval.
+2021-05-18 15:55:51,148 - __main__ - INFO - eval done.
+2021-05-18 15:55:51,148 - __main__ - INFO - val: epoch: 00024, IoU=0.5:0.95,area=all,maxDets=100,mAP:0.471, IoU=0.5,area=all,maxDets=100,mAP:0.855, IoU=0.75,area=all,maxDets=100,mAP:0.483, IoU=0.5:0.95,area=small,maxDets=100,mAP:0.378, IoU=0.5:0.95,area=medium,maxDets=100,mAP:0.610, IoU=0.5:0.95,area=large,maxDets=100,mAP:0.622, IoU=0.5:0.95,area=all,maxDets=1,mAR:0.103, IoU=0.5:0.95,area=all,maxDets=10,mAR:0.485, IoU=0.5:0.95,area=all,maxDets=100,mAR:0.538, IoU=0.5:0.95,area=small,maxDets=100,mAR:0.460, IoU=0.5:0.95,area=medium,maxDets=100,mAR:0.672, IoU=0.5:0.95,area=large,maxDets=100,mAR:0.650
+2021-05-18 15:56:03,601 - __main__ - INFO - finish training, best_map: 0.471
+2021-05-18 15:56:03,602 - __main__ - INFO - finish training, total training time: 0.30 hours

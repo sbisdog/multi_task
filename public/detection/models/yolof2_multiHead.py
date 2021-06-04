@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(
 sys.path.append(BASE_DIR)
 
 from public.path import pretrained_models_path
-from config.config import Config
+from config.config_test import Config
 
 from public.detection.models.backbone import ResNetBackbone
 from public.detection.models.head import FCOSClsRegCntHead
@@ -84,11 +84,11 @@ class DilatedEncoder(nn.Module):
         - the dilated residual block
     """
 
-    def __init__(self, in_channels):
+    def __init__(self, in_channels, encoder_channels):
         super(DilatedEncoder, self).__init__()
         # fmt: off
         self.in_channels = in_channels
-        self.encoder_channels = 512
+        self.encoder_channels = encoder_channels
         self.block_mid_channels = 128
         self.num_residual_blocks = 4
         self.block_dilations = [2, 4, 6, 8]
@@ -143,7 +143,128 @@ class DilatedEncoder(nn.Module):
         return out
 
 
+    
+    
+class UP_layer(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super(UP_layer, self ).__init__() 
+        self.layer = nn.Sequential(
+        #                 DeformableConv2d(in_channels,
+        #                                  out_channels,
+        #                                  kernel_size=(3, 3),
+        #                                  stride=1,
+        #                                  padding=1,
+        #                                  groups=1,
+        #                                  bias=False)
+                        nn.Conv2d(in_channels,
+                                 out_channels,
+                                 kernel_size=1,
+                                 stride=1,
+                                 padding=0,
+                                 bias=False),
+                    nn.BatchNorm2d(out_channels),
+                    nn.ReLU(inplace=True),
+                    nn.ConvTranspose2d(in_channels=out_channels,
+                                           out_channels=out_channels,
+                                           kernel_size=4,
+                                           stride=2,
+                                           padding=1,
+                                           output_padding=0,
+                                           bias=False),
+                    nn.BatchNorm2d(out_channels),
+                    nn.ReLU(inplace=True)
+        )
+        for m in self.layer.modules():
+            if isinstance(m, nn.ConvTranspose2d):
+                w = m.weight.data
+                f = math.ceil(w.size(2) / 2)
+                c = (2 * f - 1 - f % 2) / (2. * f)
+                for i in range(w.size(2)):
+                    for j in range(w.size(3)):
+                        w[0, 0, i, j] = (1 - math.fabs(i / f - c)) * (
+                            1 - math.fabs(j / f - c))
+                for c in range(1, w.size(0)):
+                    w[c, 0, :, :] = w[0, 0, :, :]
+            elif isinstance(m, nn.Conv2d):
+                nn.init.normal_(m.weight, std=0.001)
+        
+    def forward(self, x):
+        out = self.layer(x)
+        return out
 
+class ShortCut(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super(ShortCut, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels,
+                             out_channels,
+                             kernel_size=1,
+                             stride=1,
+                             padding=0,
+                             bias=False)
+        nn.init.normal_(self.conv1.weight, std=0.001)
+
+    def forward(self, x):
+        return self.conv1(x)
+
+    
+class TTFNeck(nn.Module):
+    def __init__(self, C5_inplanes, out_channels, neck_encoder):
+        super(TTFNeck, self).__init__()
+        self.up5t4 = UP_layer(C5_inplanes, out_channels[0])
+        self.up4t3 = UP_layer(out_channels[0], out_channels[1])
+        self.shortcut4 = ShortCut(int(C5_inplanes/2),
+                                    out_channels[0])
+        self.shortcut3 = ShortCut(int(C5_inplanes/4),
+                                    out_channels[1])
+        self.dila_encoder = DilatedEncoder(out_channels[1], neck_encoder)
+#         self.wise_conv = ShortCut(out_channels[1],
+#                                     2048)
+#         self.dila_encoder = DilatedEncoder(out_channels[0], neck_encoder)
+
+    
+    def forward(self, x):
+        C3, C4, C5 = x
+        C4_up = self.up5t4(C5) + self.shortcut4(C4)
+        C3_up = self.up4t3(C4_up) + self.shortcut3(C3)
+#         c = self.wise_conv(c)
+        out = self.dila_encoder(C3_up)
+        
+        return out
+
+    
+class NormalNeck(nn.Module):
+    def __init__(self, C5_inplanes, neck_encoder):
+        super(NormalNeck, self).__init__()
+        self.up5t4 = UP_layer(C5_inplanes, 256)
+        self.shortcut4 = ShortCut(int(C5_inplanes/2),
+                                    256)
+        self.out_conv = nn.Sequential(
+                            nn.Conv2d(in_channels=512, out_channels=2048, kernel_size=1,bias=False),
+                        nn.BatchNorm2d(2048),
+                        nn.ReLU(inplace=True)
+                        )
+        self.dila_encoder = DilatedEncoder(2048, neck_encoder)
+        for m in self.out_conv.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.normal_(m.weight, mean=0, std=0.001)
+
+            if isinstance(m, (nn.GroupNorm, nn.BatchNorm2d, nn.SyncBatchNorm)):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+    
+    def forward(self, x):
+        C3, C4, C5 = x
+        del C3
+        C5_up = self.up5t4(C5)
+        C4_shortcut = self.shortcut4(C4)
+        C4_cat = torch.cat((C4_shortcut, C5_up), dim=1)
+        C4_out = self.out_conv(C4_cat)
+        out = self.dila_encoder(C4_out)
+        
+        return out
+        
+        
+        
 class YOLOF(nn.Module):
     def __init__(self, resnet_type, config):
         super(YOLOF, self).__init__()
@@ -156,68 +277,78 @@ class YOLOF(nn.Module):
             "resnet152": 4
         }
         C5_inplanes = int(512 * expand_ratio[resnet_type])
-        self.dila_encoder = DilatedEncoder(C5_inplanes)
+        
         self.multi_task = config.multi_task
 
         self.num_classes = config.num_classes
-        self.planes = config.head_planes
-
-        self.clsregcnt_head = FCOSClsRegCntHead(self.planes,
+        self.dubble_run = config.dubble_run
+        
+        self.clsregcnt_head_1 = nn.Sequential(
+                                NormalNeck(C5_inplanes, config.yolof_encoder_channels),
+                                FCOSClsRegCntHead(config.yolof_encoder_channels,
+                                            self.num_classes,
+                                            num_layers=4,
+                                            prior=config.prior,
+                                            use_gn=config.use_GN_head,
+                                            cnt_on_reg=config.cnt_on_reg)
+                                )
+        if self.multi_task:
+            if config.use_ttf:
+                self.clsregcnt_head_2 = nn.Sequential(
+                                        TTFNeck(C5_inplanes, config.ttf_out_channels, config.yolof_encoder_channels),
+                                        FCOSClsRegCntHead(config.yolof_encoder_channels,
+                                                    self.num_classes,
+                                                    num_layers=4,
+                                                    prior=config.prior,
+                                                    use_gn=config.use_GN_head,
+                                                    cnt_on_reg=config.cnt_on_reg)
+                                        )
+            else:
+                self.clsregcnt_head_2 = nn.Sequential(
+                                    NormalNeck(C5_inplanes, config.yolof_encoder_channels),
+                                    FCOSClsRegCntHead(config.yolof_encoder_channels,
                                                 self.num_classes,
                                                 num_layers=4,
                                                 prior=config.prior,
                                                 use_gn=config.use_GN_head,
                                                 cnt_on_reg=config.cnt_on_reg)
-        if self.multi_task:
-            self.clsregcnt_head2 = FCOSClsRegCntHead(self.planes,
-                                                1,
-                                                num_layers=4,
-                                                prior=config.prior,
-                                                use_gn=config.use_GN_head,
-                                                cnt_on_reg=config.cnt_on_reg)
+                                    )
+        
+        
         self.strides = torch.tensor(config.strides, dtype=torch.float)
         self.positions = FCOSPositions(self.strides)
-
-        self.scales = nn.Parameter(
-            torch.tensor(config.scales, dtype=torch.float32))
-        self.trans = nn.ConvTranspose2d(in_channels=C5_inplanes, out_channels=int(C5_inplanes/2), kernel_size=4, stride=2, padding=1, bias=False)
-        self.c4_out = nn.Conv2d(C5_inplanes, C5_inplanes, 1)
-
+        self.scale = torch.tensor(1,dtype=torch.float, requires_grad=False)
+        
     def forward(self, inputs):
         self.batch_size, _, _, _ = inputs.shape
         device = inputs.device
-        [C3, C4, C5] = self.backbone(inputs)
+        out = self.backbone(inputs)
         del inputs
         
-        C5_up = self.trans(C5)
-        C5 = self.c4_out(torch.cat((C4, C5_up), 1))
-        
-        features = [self.dila_encoder(C5)]
+        if not self.multi_task:
+            cls_outs, reg_outs, center_outs = self.clsregcnt_head_1(out)
+        else:
+            cls_outs, reg_outs, center_outs = self.clsregcnt_head_2(out)
+            
+        del out
 
-        del C3, C4, C5
 
         self.fpn_feature_sizes = []
         cls_heads, reg_heads, center_heads = [], [], []
-        for feature, scale in zip(features, self.scales):
-            self.fpn_feature_sizes.append([feature.shape[3], feature.shape[2]])
 
-            if self.multi_task:
-                cls_outs, reg_outs, center_outs = self.clsregcnt_head2(feature)
-            else:
-                cls_outs, reg_outs, center_outs = self.clsregcnt_head(feature)
+        self.fpn_feature_sizes.append([cls_outs.shape[3], cls_outs.shape[2]])
 
-            # [N,num_classes,H,W] -> [N,H,W,num_classes]
-            cls_outs = cls_outs.permute(0, 2, 3, 1).contiguous()
-            cls_heads.append(cls_outs)
-            # [N,4,H,W] -> [N,H,W,4]
-            reg_outs = reg_outs.permute(0, 2, 3, 1).contiguous()
-            reg_outs = reg_outs * torch.exp(scale)
-            reg_heads.append(reg_outs)
-            # [N,1,H,W] -> [N,H,W,1]
-            center_outs = center_outs.permute(0, 2, 3, 1).contiguous()
-            center_heads.append(center_outs)
+        # [N,num_classes,H,W] -> [N,H,W,num_classes]
+        cls_outs = cls_outs.permute(0, 2, 3, 1).contiguous()
+        cls_heads.append(cls_outs)
+        # [N,4,H,W] -> [N,H,W,4]
+        reg_outs = reg_outs.permute(0, 2, 3, 1).contiguous()
+        reg_outs = reg_outs * torch.exp(self.scale)
+        reg_heads.append(reg_outs)
+        # [N,1,H,W] -> [N,H,W,1]
+        center_outs = center_outs.permute(0, 2, 3, 1).contiguous()
+        center_heads.append(center_outs)
 
-        del features
 
         self.fpn_feature_sizes = torch.tensor(
             self.fpn_feature_sizes).to(device)
@@ -271,10 +402,10 @@ def resnet152_yolof(pretrained=False, **kwargs):
 
 
 if __name__ == '__main__':
-    net = YOLOF(resnet_type="resnet18", config=Config)
+    net = YOLOF(resnet_type="resnet50", config=Config)
     # for item in net.named_modules():
     #     print(item)
-    image_h, image_w = 512, 512
+    image_h, image_w = 667, 667
     cls_heads, reg_heads, center_heads, batch_positions = net(
         torch.autograd.Variable(torch.randn(3, 3, image_h, image_w)))
     annotations = torch.FloatTensor([[[113, 120, 183, 255, 5],

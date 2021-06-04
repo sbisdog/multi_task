@@ -10,6 +10,7 @@ BASE_DIR = os.path.dirname(
 sys.path.append(BASE_DIR)
 
 from public.path import pretrained_models_path
+from config.config import Config
 
 from public.detection.models.backbone import ResNetBackbone
 from public.detection.models.head import FCOSClsRegCntHead
@@ -83,11 +84,11 @@ class DilatedEncoder(nn.Module):
         - the dilated residual block
     """
 
-    def __init__(self, in_channels):
+    def __init__(self, in_channels, encoder_channels):
         super(DilatedEncoder, self).__init__()
         # fmt: off
         self.in_channels = in_channels
-        self.encoder_channels = 512
+        self.encoder_channels = encoder_channels
         self.block_mid_channels = 128
         self.num_residual_blocks = 4
         self.block_dilations = [2, 4, 6, 8]
@@ -120,8 +121,8 @@ class DilatedEncoder(nn.Module):
         self.dilated_encoder_blocks = nn.Sequential(*encoder_blocks)
 
     def _init_weight(self):
-#         c2_xavier_fill(self.lateral_conv)
-#         c2_xavier_fill(self.fpn_conv)
+        c2_xavier_fill(self.lateral_conv)
+        c2_xavier_fill(self.fpn_conv)
         for m in [self.lateral_norm, self.fpn_norm]:
             nn.init.constant_(m.weight, 1)
             nn.init.constant_(m.bias, 0)
@@ -142,9 +143,71 @@ class DilatedEncoder(nn.Module):
         return out
 
 
+    
+    
+class UP_layer(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super(UP_layer, self ).__init__() 
+        self.layer = nn.Sequential(
+        #                 DeformableConv2d(in_channels,
+        #                                  out_channels,
+        #                                  kernel_size=(3, 3),
+        #                                  stride=1,
+        #                                  padding=1,
+        #                                  groups=1,
+        #                                  bias=False)
+                        nn.Conv2d(in_channels,
+                                 out_channels,
+                                 kernel_size=1,
+                                 stride=1,
+                                 padding=0,
+                                 bias=False),
+                    nn.BatchNorm2d(out_channels),
+                    nn.ReLU(inplace=True),
+                    nn.ConvTranspose2d(in_channels=out_channels,
+                                           out_channels=out_channels,
+                                           kernel_size=4,
+                                           stride=2,
+                                           padding=1,
+                                           output_padding=0,
+                                           bias=False),
+                    nn.BatchNorm2d(out_channels),
+                    nn.ReLU(inplace=True)
+        )
+        for m in self.layer.modules():
+            if isinstance(m, nn.ConvTranspose2d):
+                w = m.weight.data
+                f = math.ceil(w.size(2) / 2)
+                c = (2 * f - 1 - f % 2) / (2. * f)
+                for i in range(w.size(2)):
+                    for j in range(w.size(3)):
+                        w[0, 0, i, j] = (1 - math.fabs(i / f - c)) * (
+                            1 - math.fabs(j / f - c))
+                for c in range(1, w.size(0)):
+                    w[c, 0, :, :] = w[0, 0, :, :]
+            elif isinstance(m, nn.Conv2d):
+                nn.init.normal_(m.weight, std=0.001)
+        
+    def forward(self, x):
+        out = self.layer(x)
+        return out
 
+class ShortCut(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super(ShortCut, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels,
+                             out_channels,
+                             kernel_size=1,
+                             stride=1,
+                             padding=0,
+                             bias=False)
+        nn.init.normal_(self.conv1.weight, std=0.001)
+
+    def forward(self, x):
+        return self.conv1(x)
+                    
 class YOLOF(nn.Module):
-    def __init__(self, resnet_type, num_classes=80, use_gn=False, planes=512):
+    def __init__(self, resnet_type, config):
         super(YOLOF, self).__init__()
         self.backbone = ResNetBackbone(resnet_type=resnet_type)
         expand_ratio = {
@@ -155,49 +218,64 @@ class YOLOF(nn.Module):
             "resnet152": 4
         }
         C5_inplanes = int(512 * expand_ratio[resnet_type])
-        self.dila_encoder = DilatedEncoder(C5_inplanes)
+        self.inplanes = C5_inplanes
+        self.up_layers = []
+        self.shortcuts = []
+        
+        self.num_layers = config.num_layers
+        self.ttf_out_channels = config.ttf_out_channels
+        for i in range(self.num_layers):
+            self.up_layers.append(UP_layer(self.inplanes, self.ttf_out_channels[i]))
+            self.shortcuts.append(ShortCut(int(C5_inplanes/(2**(i+1))),
+                                         self.ttf_out_channels[i]))
+            self.inplanes = self.ttf_out_channels[i]
+        self.dila_encoder = DilatedEncoder(self.inplanes, config.yolof_encoder_channels)
+        self.multi_task = config.multi_task
+
+        self.num_classes = config.num_classes
         
 
-        self.num_classes = num_classes
-        self.planes = planes
-
-        self.clsregcnt_head = FCOSClsRegCntHead(self.planes,
+        self.clsregcnt_head = FCOSClsRegCntHead(config.yolof_encoder_channels,
                                                 self.num_classes,
                                                 num_layers=4,
-                                                prior=0.01,
-                                                use_gn=use_gn,
-                                                cnt_on_reg=True)
-
-        self.strides = torch.tensor([32], dtype=torch.float)
+                                                prior=config.prior,
+                                                use_gn=config.use_GN_head,
+                                                cnt_on_reg=config.cnt_on_reg)
+        
+        self.strides = torch.tensor(config.strides, dtype=torch.float)
         self.positions = FCOSPositions(self.strides)
-
-        self.scales = nn.Parameter(
-            torch.tensor([1.], dtype=torch.float32))
-
+        self.scale = torch.tensor(1,dtype=torch.float)
+        
     def forward(self, inputs):
         self.batch_size, _, _, _ = inputs.shape
         device = inputs.device
-        [C3, C4, C5] = self.backbone(inputs)
-
+        out = self.backbone(inputs)
         del inputs
+        c = out[-1]
+        for i in range(self.num_layers):
+            c = self.up_layers[i].to(device)(c)
+            c = c + self.shortcuts[i].to(device)(out[-2-i])
 
-        features = [self.dila_encoder(C5)]
+        features = [self.dila_encoder(c)]
+        del c
 
-        del C3, C4, C5
 
         self.fpn_feature_sizes = []
         cls_heads, reg_heads, center_heads = [], [], []
-        for feature, scale in zip(features, self.scales):
+        for feature in features:
             self.fpn_feature_sizes.append([feature.shape[3], feature.shape[2]])
 
-            cls_outs, reg_outs, center_outs = self.clsregcnt_head(feature)
+            if self.multi_task:
+                cls_outs, reg_outs, center_outs = self.clsregcnt_head2(feature)
+            else:
+                cls_outs, reg_outs, center_outs = self.clsregcnt_head(feature)
 
             # [N,num_classes,H,W] -> [N,H,W,num_classes]
             cls_outs = cls_outs.permute(0, 2, 3, 1).contiguous()
             cls_heads.append(cls_outs)
             # [N,4,H,W] -> [N,H,W,4]
             reg_outs = reg_outs.permute(0, 2, 3, 1).contiguous()
-            reg_outs = reg_outs * torch.exp(scale)
+            reg_outs = reg_outs * torch.exp(self.scale)
             reg_heads.append(reg_outs)
             # [N,1,H,W] -> [N,H,W,1]
             center_outs = center_outs.permute(0, 2, 3, 1).contiguous()
@@ -257,8 +335,10 @@ def resnet152_yolof(pretrained=False, **kwargs):
 
 
 if __name__ == '__main__':
-    net = YOLOF(resnet_type="resnet18")
-    image_h, image_w = 512, 512
+    net = YOLOF(resnet_type="resnet50", config=Config)
+    # for item in net.named_modules():
+    #     print(item)
+    image_h, image_w = 667, 667
     cls_heads, reg_heads, center_heads, batch_positions = net(
         torch.autograd.Variable(torch.randn(3, 3, image_h, image_w)))
     annotations = torch.FloatTensor([[[113, 120, 183, 255, 5],
@@ -270,4 +350,3 @@ if __name__ == '__main__':
 
     print("1111", cls_heads[0].shape, reg_heads[0].shape,
           center_heads[0].shape, batch_positions[0].shape)
-    print(batch_positions)
