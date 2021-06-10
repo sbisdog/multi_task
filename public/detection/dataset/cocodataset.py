@@ -4,10 +4,11 @@ import torch
 import numpy as np
 import random
 import math
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 from pycocotools.coco import COCO
 import torch.nn.functional as F
 from torchvision import transforms
+from PIL import Image, ImageEnhance, ImageOps
 
 COCO_CLASSES = [
     "person",
@@ -398,6 +399,9 @@ class RandomFlip(object):
 
         return sample
 
+    
+
+
 
 class RandomCrop(object):
     def __init__(self, crop_prob=0.5):
@@ -557,7 +561,160 @@ def Resize_new(image,boxes,input_ksize):
                     'annot': torch.from_numpy(boxes),
                     'scale': scale
                     }
+        
+        
+class RandomColorAndBlur(object):
+    def __init__(self, brightness_factor=0.3, contrast_factor=0.3, saturation_factor=0.3, hue_factor=0.3, blur_vari=0.3):
+
+        self.brightness_factor = brightness_factor
+        self.contrast_factor = contrast_factor
+        self.saturation_factor = saturation_factor
+        self.hue_factor = hue_factor
+        self.blur_vari = blur_vari
     
+    
+    def adjust_brightness(self, img, brightness_factor):
+        """Adjust brightness of an Image.
+        Args:
+            img (numpy ndarray): numpy ndarray to be adjusted.
+            brightness_factor (float):  How much to adjust the brightness. Can be
+                any non negative number. 0 gives a black image, 1 gives the
+                original image while 2 increases the brightness by a factor of 2.
+        Returns:
+            numpy ndarray: Brightness adjusted image.
+        """
+        if np.random.uniform(0,1) < brightness_factor: 
+            brightness_factor = 1 + np.random.uniform(-brightness_factor, brightness_factor)
+        else:
+            return img
+        
+        table = np.array([i * brightness_factor for i in range(0, 256)]).clip(0, 255).astype('uint8')
+        # same thing but a bit slower
+        # cv2.convertScaleAbs(img, alpha=brightness_factor, beta=0)
+        if img.shape[2] == 1:
+            return cv2.LUT(img, table)[:, :, np.newaxis]
+        else:
+            return cv2.LUT(img, table)
+
+
+    def adjust_contrast(self, img, contrast_factor):
+        """Adjust contrast of an mage.
+        Args:
+            img (numpy ndarray): numpy ndarray to be adjusted.
+            contrast_factor (float): How much to adjust the contrast. Can be any
+                non negative number. 0 gives a solid gray image, 1 gives the
+                original image while 2 increases the contrast by a factor of 2.
+        Returns:
+            numpy ndarray: Contrast adjusted image.
+        """
+        # much faster to use the LUT construction than anything else I've tried
+        # it's because you have to change dtypes multiple times
+
+        # input is RGB
+        if np.random.uniform(0,1) < contrast_factor:
+            contrast_factor = 1 + np.random.uniform(-contrast_factor, contrast_factor)
+        else:
+            return img
+            
+        if img.ndim > 2 and img.shape[2] == 3:
+            mean_value = round(cv2.mean(cv2.cvtColor(img, cv2.COLOR_RGB2GRAY))[0])
+        elif img.ndim == 2:
+            # grayscale input
+            mean_value = round(cv2.mean(img)[0])
+        else:
+            # multichannel input
+            mean_value = round(np.mean(img))
+
+        table = np.array([(i - mean_value) * contrast_factor + mean_value for i in range(0, 256)]).clip(0,
+                                                                                                        255).astype('uint8')
+        # enhancer = ImageEnhance.Contrast(img)
+        # img = enhancer.enhance(contrast_factor)
+        if img.ndim == 2 or img.shape[2] == 1:
+            return cv2.LUT(img, table)[:, :, np.newaxis]
+        else:
+            return cv2.LUT(img, table)
+
+
+    def adjust_saturation(self, img, saturation_factor):
+        """Adjust color saturation of an image.
+        Args:
+            img (numpy ndarray): numpy ndarray to be adjusted.
+            saturation_factor (float):  How much to adjust the saturation. 0 will
+                give a black and white image, 1 will give the original image while
+                2 will enhance the saturation by a factor of 2.
+        Returns:
+            numpy ndarray: Saturation adjusted image.
+        """
+        # ~10ms slower than PIL!
+        if np.random.uniform(0,1) < saturation_factor:
+            saturation_factor = 1 + np.random.uniform(-saturation_factor, saturation_factor)
+        else:
+            return img
+        
+        img = Image.fromarray(img)
+        enhancer = ImageEnhance.Color(img)
+        img = enhancer.enhance(saturation_factor)
+        return np.array(img)
+
+
+    def adjust_hue(self, img, hue_factor):
+        """Adjust hue of an image.
+        The image hue is adjusted by converting the image to HSV and
+        cyclically shifting the intensities in the hue channel (H).
+        The image is then converted back to original image mode.
+        `hue_factor` is the amount of shift in H channel and must be in the
+        interval `[-0.5, 0.5]`.
+        See `Hue`_ for more details.
+        .. _Hue: https://en.wikipedia.org/wiki/Hue
+        Args:
+            img (numpy ndarray): numpy ndarray to be adjusted.
+            hue_factor (float):  How much to shift the hue channel. Should be in
+                [-0.5, 0.5]. 0.5 and -0.5 give complete reversal of hue channel in
+                HSV space in positive and negative direction respectively.
+                0 means no shift. Therefore, both -0.5 and 0.5 will give an image
+                with complementary colors while 0 gives the original image.
+        Returns:
+            numpy ndarray: Hue adjusted image.
+        """
+        # After testing, found that OpenCV calculates the Hue in a call to
+        # cv2.cvtColor(..., cv2.COLOR_BGR2HSV) differently from PIL
+
+        # This function takes 160ms! should be avoided
+        if np.random.uniform(0,1) < hue_factor:
+            hue_factor = np.random.uniform(-hue_factor, hue_factor)
+        else:
+            return img
+            
+        img = Image.fromarray(img)
+        input_mode = img.mode
+        if input_mode in {'L', '1', 'I', 'F'}:
+            return np.array(img)
+
+        h, s, v = img.convert('HSV').split()
+
+        np_h = np.array(h, dtype=np.uint8)
+        # uint8 addition take cares of rotation across boundaries
+        with np.errstate(over='ignore'):
+            np_h += np.uint8(hue_factor * 255)
+        h = Image.fromarray(np_h, 'L')
+
+        img = Image.merge('HSV', (h, s, v)).convert(input_mode)
+        return np.array(img)
+    
+    
+    def __call__(self, sample):
+        image, annots, scale = sample['img'], sample['annot'], sample['scale']
+
+        image = image.astype(np.uint8)
+        image = self.adjust_brightness(image, self.brightness_factor)
+        image = self.adjust_contrast(image, self.contrast_factor)
+        image = self.adjust_saturation(image, self.saturation_factor)
+        image = self.adjust_hue(image, self.hue_factor)
+        if np.random.uniform(0,1) < self.blur_vari:
+            img = cv2.GaussianBlur(image,(5,5),0).astype(np.float32)
+        
+        sample = {'img': image, 'annot': annots, 'scale': scale}
+        return sample   
 
 
 if __name__ == '__main__':
@@ -565,19 +722,30 @@ if __name__ == '__main__':
     from tqdm import tqdm
     coco = CocoDetection(
         image_root_dir=
-        '/home/zgcr/Downloads/datasets/COCO2017/images/train2017/',
+        '/home/jovyan/data-vol-polefs-1/dataset/lanmu/images/val2017',
         annotation_root_dir=
-        "/home/zgcr/Downloads/datasets/COCO2017/annotations/",
-        set='train2017',
+        '/home/jovyan/data-vol-polefs-1/dataset/lanmu/annotations',
+        set='val2017',
         transform=transforms.Compose([
-            RandomFlip(),
-            Resize(resize=600),
+            RandomColorAndBlur(),
+            Resize(resize=512),
         ]))
+    train_loader = DataLoader(coco,
+                              batch_size=1,
+                              shuffle=False,
+                              num_workers=8)
+    it = iter(train_loader)
+    for i in range(100):
+        sample = it.next()
+        im = sample["img"][0].numpy().astype(np.float32)
+        print(im.shape)
+        im = cv2.cvtColor(im, cv2.COLOR_RGB2BGR)
+        print("out", im.shape)
+        cv2.imwrite("/home/jovyan/data-vol-polefs-1/dataset/lanmu/augimgs/{}.jpg".format(i), im)
+#     print(len(coco))
+#     print(coco.category_id_to_coco_label)
 
-    print(len(coco))
-    print(coco.category_id_to_coco_label)
-
-    print(coco[0]['img'].shape, coco[0]['annot'], coco[0]['scale'])
+#     print(coco[0]['img'].shape, coco[0]['annot'], coco[0]['scale'])
 
     # retinanet resize method
     # resize=400,per_image_average_area=223743,input shape=[667,667]

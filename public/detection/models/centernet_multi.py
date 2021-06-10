@@ -278,7 +278,7 @@ class TTFHead(nn.Module):
 
 # assert input annotations are[x_min,y_min,x_max,y_max]
 class CenterNet(nn.Module):
-    def __init__(self, resnet_type, num_classes=80, multi_head=False, selayer=True, use_ttf=False, cls_mlp=False):
+    def __init__(self, resnet_type, num_classes=80, multi_head=False, selayer=True, use_ttf=False, cls_mlp=False, deploy=False):
         super(CenterNet, self).__init__()
         self.backbone = ResNetBackbone(resnet_type=resnet_type)
         expand_ratio = {
@@ -291,6 +291,7 @@ class CenterNet(nn.Module):
         C5_inplanes = int(512 * expand_ratio[resnet_type])
         self.multi_head = multi_head
         self.use_ttf = use_ttf
+        self.deploy = deploy
 
         self.centernet_head = CenterNetHetRegWhHead(
             C5_inplanes,
@@ -341,19 +342,28 @@ class CenterNet(nn.Module):
 
     def forward(self, inputs):
         [C2, C3, C4, C5] = self.backbone(inputs)
-
         del inputs
-        
+
         if self.multi_head:
-            if self.use_ttf:
-                heatmap_output, offset_output, wh_output = self.centernet_head_2([C2, C3, C4, C5])
+            if self.deploy:
+                if self.use_ttf:
+                    heatmap_output0, offset_output0, wh_output0 = self.centernet_head(C5)
+                    heatmap_output1, offset_output1, wh_output1 = self.centernet_head_2([C2, C3, C4, C5])
+                else:
+                    heatmap_output0, offset_output0, wh_output0 = self.centernet_head(C5)
+                    heatmap_output1, offset_output1, wh_output1 = self.centernet_head_2(C5)
+                del C2, C3, C4, C5
+                return heatmap_output0, offset_output0, wh_output0, heatmap_output1, offset_output1, wh_output1
+                
             else:
-                heatmap_output, offset_output, wh_output = self.centernet_head_2(C5)
-            del C2, C3, C4
+                if self.use_ttf:
+                    heatmap_output, offset_output, wh_output = self.centernet_head_2([C2, C3, C4, C5])
+                else:
+                    heatmap_output, offset_output, wh_output = self.centernet_head_2(C5)
+            del C2, C3, C4, C5
         else:
             heatmap_output, offset_output, wh_output = self.centernet_head(C5)
-
-        del C5
+            del C2, C3, C4, C5
         
         if self.cls_mlp:
             heatmap_output = self.cls(heatmap_output)

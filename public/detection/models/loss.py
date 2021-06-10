@@ -730,7 +730,7 @@ class CenterNetLoss(nn.Module):
                  wh_weight=0.1,
                  epsilon=1e-4,
                  min_overlap=0.7,
-                 max_object_num=680):
+                 max_object_num=100):
         super(CenterNetLoss, self).__init__()
         self.alpha = alpha
         self.beta = beta
@@ -845,9 +845,16 @@ class CenterNetLoss(nn.Module):
             -1).repeat(1, 2)
         per_image_offset_heads = torch.gather(
             per_image_offset_heads, 0, per_image_reg_to_heatmap_index.long())
-
-        valid_object_num = (per_image_positive_targets_mask[
-            per_image_positive_targets_mask == 1.]).shape[0]
+        
+        try:
+            valid_object_num = (per_image_positive_targets_mask[
+                per_image_positive_targets_mask == 1.]).shape[0]
+        except:
+            print("or: ", per_image_positive_targets_mask.shape)
+            print("next: ", (per_image_positive_targets_mask == 1.).shape)
+            raise ValueError("爬")
+        
+        
 
         if valid_object_num == 0:
             return torch.tensor(0.).to(device)
